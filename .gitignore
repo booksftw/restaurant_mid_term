@@ -2,5 +2,5 @@ node_modules/
 public/styles
 .env
 *.log
-*.sqlite3
-
+*.sqlite.3
+package-lock.json
