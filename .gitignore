@@ -3,3 +3,4 @@ node_modules/
 *.log
 *.sqlite.3
 package-lock.json
+.DS_Store
