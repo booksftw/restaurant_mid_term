@@ -18,7 +18,6 @@ exports.up = function(knex, Promise) {
             table.string('description').notNullable();
             table.time('start_time');
             table.time('end_time');
-
             table.integer('restrauntid').unsigned();
             table.foreign('id').references('restaurants')
         })
@@ -43,6 +42,32 @@ exports.up = function(knex, Promise) {
       table.foreign('id').references('dishes');
     })
   })
+
+  const createOrdersTable = knex.schema.createTable('orders', (table) => {
+    table.increments('id');
+    table.timestamp('created_at');
+    table.timestamp('received_at')
+    table.timestamp('completed_at');
+    table.timestamp('pickup_at');
+    table.float('total_price').unsigned();
+    table.string('notes');
+    table.string('name');
+    table.string('phone').notNullable();
+    table.integer('restaurant_id');
+    table.foreign('id').references('restaurants');
+  })
+
+  const createLineItems = Promise.all([ createOrdersTable, createDishesTable ])
+    .then( () => {
+      knex.schema.createTable('line_items', (table) => {
+        table.increments('id');
+        table.integer('order_id');
+        table.foreign('id').references('orders');
+        table.integer('menu_item_id');
+        table.foreign('id').references('menu_items');
+        table.integer('qty').unsigned();
+      })
+    })
 };
 
 exports.down = function(knex, Promise) {
