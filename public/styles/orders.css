@@ -16,6 +16,10 @@
   font-size: 1rem;
 }
 
+.orders .order .order-head:hover {
+  cursor: pointer;
+}
+
 .orders .order .order-contact {
   display: flex;
   justify-content: space-between;
