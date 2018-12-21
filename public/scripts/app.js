@@ -1,7 +1,9 @@
-$(document).ready(() => {
+const $jq = jQuery.noConflict();
+
+$jq(document).ready(() => {
 
   // Order toggle
-  $('.order-head').click(() => {
-    console.log('Click!');
+  $jq('.order-head').click(() => {
+    $jq('.order-head').siblings().slideToggle('fast');
   });
 });
