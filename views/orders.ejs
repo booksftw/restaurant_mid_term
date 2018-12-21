@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/styles/navbar.css" type="text/css" />
     <link rel="stylesheet" href="/styles/orders.css" type="text/css" />
 
+    <!-- Scripts -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+
     <title>Gio's Cafe - Orders</title>
   </head>
 
@@ -29,136 +33,194 @@
         <div class="col-4 border-left border-right text-center new-orders">
           <h2>New Orders</h2>
           <div class="order">
-            <div class="order-contact">
+            <div class="order-head order-contact">
               <span>#12345</span>
               <span>John Smith</span>
               <span>555-555-5555</span>
             </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
             </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
           </div>
           <div class="order">
-            <div class="order-contact">
+            <div class="order-head order-contact">
               <span>#12345</span>
               <span>John Smith</span>
               <span>555-555-5555</span>
             </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
             </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
+          </div>
+          <div class="order">
+            <div class="order-head order-contact">
+              <span>#12345</span>
+              <span>John Smith</span>
+              <span>555-555-5555</span>
+            </div>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
+            </div>
           </div>
         </div>
         <div class="col-4 border-left border-right text-center in-progress-orders">
           <h2>In Progress</h2>
           <div class="order">
-            <div class="order-contact">
+            <div class="order-head order-contact">
               <span>#12345</span>
               <span>John Smith</span>
               <span>555-555-5555</span>
             </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
             </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Complete" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
           </div>
           <div class="order">
-            <div class="order-contact">
-              <span class="order-id">#12345</span>
-              <span>Johnathan Joseph Smith</span>
-              <span>555-555-5555</span>
-            </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
-            </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Complete" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
-          </div>
-          <div class="order">
-            <div class="order-contact">
+            <div class="order-head order-contact">
               <span>#12345</span>
               <span>John Smith</span>
               <span>555-555-5555</span>
             </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
             </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Complete" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
+          </div>
+          <div class="order">
+            <div class="order-head order-contact">
+              <span>#12345</span>
+              <span>John Smith</span>
+              <span>555-555-5555</span>
+            </div>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
+            </div>
+          </div>
+          <div class="order">
+            <div class="order-head order-contact">
+              <span>#12345</span>
+              <span>John Smith</span>
+              <span>555-555-5555</span>
+            </div>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
+            </div>
           </div>
         </div>
         <div class="col-4 border-left border-right text-center completed-orders">
           <h2>Ready for Pickup</h2>
           <div class="order">
-            <div class="order-contact">
+            <div class="order-head order-contact">
               <span>#12345</span>
               <span>John Smith</span>
               <span>555-555-5555</span>
             </div>
-            <div class="order-items">
-              <ul>
-                <li>1 x Cheeseburger</li>
-                <li>2 x Coke (355mL)</li>
-              </ul>
-              <p>
-                <span>Comments:</span><br />
-                Allergic to onions.
-              </p>
+            <div class="order-details">
+              <div class="order-items">
+                <ul>
+                  <li>1 x Cheeseburger</li>
+                  <li>2 x Coke (355mL)</li>
+                </ul>
+                <p>
+                  <span>Comments:</span><br />
+                  Allergic to onions.
+                </p>
+              </div>
+              <form class="order-buttons">
+                <input type="button" class="btn btn-primary btn-sm btn-round" value="Confirm" />
+                <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
+              </form>
             </div>
-            <form class="order-buttons">
-              <input type="button" class="btn btn-primary btn-sm btn-round" value="Picked Up" />
-              <input type="button" class="btn btn-danger btn-sm btn-round" value="Cancel" />
-            </form>
           </div>
         </div>
       </div>
