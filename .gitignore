@@ -4,3 +4,4 @@ public/styles
 *.log
 *.sqlite.3
 package-lock.json
+scratch_nz/
