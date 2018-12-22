@@ -17,8 +17,9 @@ const knexLogger  = require('knex-logger');
 const DataHelpers = require('./utils/data-helpers.js');
 
 /**
- * SAMPLE CODE
- * Working away on this still
+ * How to get Data from database?
+ * SAMPLE CODE - full list of functions in ./utils/data-helper.js file
+ * 
  */
 
   // let nzRes;
