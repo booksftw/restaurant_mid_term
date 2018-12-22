@@ -22,11 +22,9 @@ const DataHelpers = require('./utils/data-helpers.js');
  * 
  */
 
-  // let nzRes;
   // let result = DataHelpers.getRestaurant();
   // result.then( (value)=>{
   //   console.log(value, 'val')
-  //   nzRes = value;
   // })
 
 /**
