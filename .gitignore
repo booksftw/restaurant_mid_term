@@ -4,3 +4,4 @@ node_modules/
 *.sqlite.3
 package-lock.json
 scratch_nz/
+.vscode/
