@@ -6,8 +6,8 @@ exports.up = async function(knex, Promise) {
       table.string('logo_url').notNullable();
       table.string('address').notNullable();
       table.string('phone_number').notNullable();
-      t.time('open_time');
-      t.time('close_time');
+      table.time('open_time');
+      table.time('close_time');
   }).return()
 
   const createMenusTable = (async() => {
@@ -58,8 +58,6 @@ exports.up = async function(knex, Promise) {
     table.integer('restaurant_id');
     table.foreign('id').references('restaurants');
   }).return()
-
-(function myFunc(){})()
 
   const createLineItems = (async () => {
     await createOrdersTable;
