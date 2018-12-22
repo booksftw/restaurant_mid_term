@@ -57,8 +57,19 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
-// Home page
+// Home page 
+// ~NZ working here - erase me later
 app.get("/", (req, res) => {
+
+  let result = DataHelpers.getRestaurant();
+  result.then( (value)=>{
+    console.log(value, 'val')
+  })
+
+  const templateData = {
+
+  }
+
   res.render("index");
 });
 
