@@ -56,17 +56,27 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
-// Home page 
-// ~NZ working here - erase me later
-app.get("/get_data_demo", (req, res) => {
+/**
+ *  *Demo - Get Data from DB
+ *  Visit localhost:8080/get_data_demo and edit /views/get-data-sample.ejs to play with this
+ * 
+ */
+app.get("/demo", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then( (value)=>{
     console.log(value, 'val')
+    
+    const restrauntData = value;
     const templateData = {
-       name: value.name     
+       restr: restrauntData     
     }
     res.render("index",templateData);
   })
+});
+
+// Home page
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
 // Home page
