@@ -1,40 +1,40 @@
-.navbar-brand img {
-  height: 80px;
-}
-
 .orders {
   padding: 1rem;
 }
 
-.order {
+.orders .order {
   padding: 0.7rem;
   text-align: left;
   border-bottom: 1px solid #aaa;
 }
 
-.order h3 {
+.orders .order h3 {
   font-size: 1.2rem;
 }
 
-.order p {
+.orders .order p {
   font-size: 1rem;
 }
 
-.order-contact {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 0.7rem;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+.orders .order .order-head:hover {
+  cursor: pointer;
 }
 
-.order-items {
+.orders .order .order-contact {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.orders .order .order-items {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 1rem;
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid #ddd;
 }
 
-.order-buttons {
+.orders .order .order-buttons {
   text-align: center;
 }

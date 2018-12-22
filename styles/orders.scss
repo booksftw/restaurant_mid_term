@@ -1,0 +1,40 @@
+.orders {
+  padding: 1rem;
+
+  .order {
+    padding: 0.7rem;
+    text-align: left;
+    border-bottom: 1px solid #aaa;
+
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    .order-head:hover {
+      cursor: pointer;
+    }
+
+    .order-contact {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .order-items {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 0.7rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid #ddd;
+    }
+
+    .order-buttons {
+      text-align: center;
+    }
+  }
+}
