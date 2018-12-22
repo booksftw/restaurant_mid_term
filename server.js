@@ -70,7 +70,7 @@ app.get("/demo", (req, res) => {
     const templateData = {
        restr: restrauntData     
     }
-    res.render("index",templateData);
+    res.render("get-data-sample",templateData);
   })
 });
 
