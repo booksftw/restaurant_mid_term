@@ -10,7 +10,7 @@ exports.up = async function(knex, Promise) {
       table.time('close_time');
   }).return()
 
-  const createMenusTable = (async() => {
+  const createMenusTable = ( async() => {
     await createRestaurantsTable;
     await knex.schema.createTable('menus', (table) => {
       table.increments('id');
