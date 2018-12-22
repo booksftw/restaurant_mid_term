@@ -22,12 +22,11 @@ const DataHelpers = require('./utils/data-helpers.js');
  * 
  */
 
-  // let nzRes;
-  // let result = DataHelpers.getRestaurant();
-  // result.then( (value)=>{
-  //   console.log(value, 'val')
-  //   nzRes = value;
-  // })
+  let result = DataHelpers.getRestaurant();
+  result.then( (value)=>{
+    console.log(value, 'val')
+    console.log(value.name)
+  })
 
 /**
  * End Sample
@@ -59,18 +58,15 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page 
 // ~NZ working here - erase me later
-app.get("/", (req, res) => {
-
+app.get("/get_data_demo", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then( (value)=>{
     console.log(value, 'val')
+    const templateData = {
+       name: value.name     
+    }
+    res.render("index",templateData);
   })
-
-  const templateData = {
-
-  }
-
-  res.render("index");
 });
 
 // Home page
