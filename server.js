@@ -14,6 +14,24 @@ const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
+const DataHelpers = require('./utils/data-helpers.js');
+
+/**
+ * SAMPLE CODE
+ * Working away on this still
+ */
+
+  // let nzRes;
+  // let result = DataHelpers.getRestaurant();
+  // result.then( (value)=>{
+  //   console.log(value, 'val')
+  //   nzRes = value;
+  // })
+
+/**
+ * End Sample
+ */
+
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
