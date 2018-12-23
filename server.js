@@ -19,7 +19,7 @@ const DataHelpers = require('./utils/data-helpers.js');
 /**
  * How to get Data from database?
  * SAMPLE CODE - full list of functions in ./utils/data-helper.js file
- * 
+ *
  */
 
   // let result = DataHelpers.getRestaurant();
@@ -58,16 +58,16 @@ app.use("/api/users", usersRoutes(knex));
 /**
  *  *Demo - Get Data from DB
  *  Visit localhost:8080/get_data_demo and edit /views/get-data-sample.ejs to play with this
- * 
+ *
  */
 app.get("/demo", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then( (value)=>{
     console.log(value, 'val')
-    
+
     const restrauntData = value;
     const templateData = {
-       restr: restrauntData     
+       restr: restrauntData
     }
     res.render("get-data-sample",templateData);
   })
@@ -75,7 +75,17 @@ app.get("/demo", (req, res) => {
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  let result = DataHelpers.getRestaurant();
+  result.then( (value)=>{
+    console.log(value, 'val')
+
+    const restrauntData = value;
+    const templateData = {
+       restr: restrauntData
+    }
+
+  res.render("index", templateData);
+  });
 });
 
 // Home page
