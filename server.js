@@ -62,16 +62,53 @@ app.use("/api/users", usersRoutes(knex));
  * 
  */
 app.get("/demo", (req, res) => {
-  let result = DataHelpers.getRestaurant();
-  result.then( (value)=>{
-    console.log(value, 'val')
+
+  /**
+   * Important Note: I set up the demo for restraunts so it'll correctly output to the template. I didn't demo the Menus and Dishes but I validated the data.
+   * 
+   * 
+   * 
+   */
+
+
+  // get Restraunts
+  // let result = DataHelpers.getRestaurant();
+  // result.then( (value)=>{
+  // console.log(value, 'val')
     
-    const restrauntData = value;
-    const templateData = {
-       restr: restrauntData     
-    }
-    res.render("get-data-sample",templateData);
-  })
+  //   const restrauntData = value;
+  //   const templateData = {
+  //      restr: restrauntData     
+  //   }
+  //   res.render("get-data-sample",templateData);
+  // })
+
+  // get Menus
+  // let menuResult = DataHelpers.getMenus();
+  // menuResult.then( (value)=>{
+  //   console.log(value, 'val menu')
+    
+  //   const menuData = value;
+  //   const templateData = {
+  //      restr: menuData     
+  //   }
+  //   res.render("get-data-sample",templateData);
+  // })
+
+  // get Dishes ! Returns array
+  //   let dishesResult = DataHelpers.getDishes();
+  //   dishesResult.then( (value)=>{
+  //   console.log(value, 'dish menu')
+    
+  //   const dishResult = value;
+  //   const templateData = {
+  //      restr: dishResult     
+  //   }
+  //   res.render("get-data-sample",templateData);
+  // })
+
+
+
 });
 
 // Home page
