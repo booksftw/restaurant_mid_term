@@ -16,8 +16,8 @@ $(document).ready(() => {
     const $order = $("<div>").addClass('cart-item').html(`
 
       <div class="menu-text">
-        <h3>breakfast</h3>
-        <p>$12.99</p>
+        <p><em>breakfast</em></p>
+        <p>$12.99</p><p>QTY:<input type=number></p>
       </div>
       `);
 
