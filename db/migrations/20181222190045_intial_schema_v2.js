@@ -17,7 +17,7 @@ exports.up = async function(knex, Promise) {
       table.string('description').notNullable();
       table.time('start_time')
       table.time('end_time');
-      table.integer('restrauntid').unsigned();
+      table.integer('restaurantid').unsigned();
       table.foreign('id').references('restaurants')
     });
   })();
