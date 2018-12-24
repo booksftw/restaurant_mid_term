@@ -1,19 +1,51 @@
 exports.seed = function(knex, Promise) {
 
-  return knex.select().table('menus')
-  .whereIn('id',[1,2,3,4,5,6])
-  .del().then( () => {
+  /**
+   * 
+   * ~ You're connecting promises to clear the menu table then the empty menu table
+   * ~ You can refactor this using async and await maybe, or include Promise.all
+   * ~ There may be areas that you can make more dynamic and DRY
+   * ~ A new thought is that you might be able to wrap everything in Promise.all
+   * ~ Another thought is that you can pull in the schema table columns for a table and clear them that way dynamiclly.
+   * 
+   * ~In progress: Make table clear dyanamic.
+   */
 
+  
+  const schemaTables = ['menus', 'dishes', 'menu_items', 'restaurants', 'orders', 'line_items']
+
+  const deleteAllTables = new Promise( () => {
+
+    schemaTables.forEach( (table) => {
+
+    })
+  })
+
+
+
+
+
+  // const emptyMenus = knex.select().table('menus')
+  // .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
+  // .del().return();
+
+  // const emptyDishes = emptyMenus.then( () => {
+  //   knex.select().table('dishes')
+  //   .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
+  //   .del().return();
+  // }).return() 
+
+    return emptyDishes.then( () => {
     return knex('restaurants').del()
     .then(function () {
   
       return Promise.all([
         // ? Omit id makes each new insert an increment id
         knex('restaurants').insert({id:1, name: 'Gio Cafe', logo_url:'https://cdn.websites.hibu.com/3446c3f773fc4983b12995f3adab4a82/dms3rep/multi/mobile/Cafe-Gio-logo.png', address:'201 Demacia st', phone_number:'123-456-7890', open_time: '07:00:00', close_time: '21:00:00' }),
-        // knex('menus').insert({id:1, name: 'Breakfast', description: 'breakfast menuz', start_time:'07:00:00', end_time: '21:00:00', restaurantid: 1,  }),
+        knex('menus').insert({id:1, name: 'Breakfast', description: 'breakfast menuz', start_time:'07:00:00', end_time: '21:00:00', restaurantid: 1,  }),
         knex('dishes').insert({id: 1, name: 'Eggs', description: 'tasty in your mouth', image_url:"https://www.cbc.ca/inthekitchen/assets_c/2013/10/Steak'nEggs26-thumb-596x350-329015.jpg",price:12.00}),
-        // knex('dishes').insert({name: 'Pizza', description: 'Cheezy awesomeness', image_url:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/220px-Eq_it-na_pizza-margherita_sep2005_sml.jpg",price:15.00}),
-        // knex('dishes').insert({name: 'Burgers', description: 'Yum', image_url:"https://media.mnn.com/assets/images/2017/06/sonic_mushroom_beef_burger.jpg.653x0_q80_crop-smart.jpg",price:12.99}),
+        knex('dishes').insert({id: 2, name: 'Pizza', description: 'Cheezy awesomeness', image_url:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/220px-Eq_it-na_pizza-margherita_sep2005_sml.jpg",price:15.00}),
+        knex('dishes').insert({id: 3, name: 'Burgers', description: 'Yum', image_url:"https://media.mnn.com/assets/images/2017/06/sonic_mushroom_beef_burger.jpg.653x0_q80_crop-smart.jpg",price:12.99}),
       ]);
     })
     .then(() => {
@@ -22,8 +54,10 @@ exports.seed = function(knex, Promise) {
       return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
     })
 
+    })
 
-  } )
+  }
 
 
-  };
+
+  
