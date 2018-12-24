@@ -5,8 +5,10 @@ exports.up = async function(knex, Promise) {
       table.string('logo_url').notNullable();
       table.string('address').notNullable();
       table.string('phone_number').notNullable();
-      table.time('open_time');
-      table.time('close_time');
+      // table.time('open_time');
+      table.timestamp('open_time').defaultTo(knex.fn.now());
+      table.timestamp('close_time').defaultTo(knex.fn.now());      
+      // table.time('close_time');
   }).return()
 
   const createMenusTable = ( async() => {
@@ -15,8 +17,10 @@ exports.up = async function(knex, Promise) {
       table.increments('id');
       table.string('name').notNullable();
       table.string('description').notNullable();
-      table.time('start_time');
-      table.time('end_time');
+      // table.time('start_time');
+      table.timestamp('start_time').defaultTo(knex.fn.now());
+      table.timestamp('end_time').defaultTo(knex.fn.now());
+      // table.time('end_time');
       table.integer('restrauntid').unsigned();
       table.foreign('id').references('restaurants')
     });
