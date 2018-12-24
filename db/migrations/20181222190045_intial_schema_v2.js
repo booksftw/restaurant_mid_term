@@ -5,10 +5,8 @@ exports.up = async function(knex, Promise) {
       table.string('logo_url').notNullable();
       table.string('address').notNullable();
       table.string('phone_number').notNullable();
-      // table.time('open_time');
-      table.timestamp('open_time').defaultTo(knex.fn.now());
-      table.timestamp('close_time').defaultTo(knex.fn.now());      
-      // table.time('close_time');
+      table.time('open_time');
+      table.time('close_time'); 
   }).return()
 
   const createMenusTable = ( async() => {
@@ -17,16 +15,13 @@ exports.up = async function(knex, Promise) {
       table.increments('id');
       table.string('name').notNullable();
       table.string('description').notNullable();
-      // table.time('start_time');
-      table.timestamp('start_time').defaultTo(knex.fn.now());
-      table.timestamp('end_time').defaultTo(knex.fn.now());
-      // table.time('end_time');
+      table.time('start_time')
+      table.time('end_time');
       table.integer('restrauntid').unsigned();
       table.foreign('id').references('restaurants')
     });
   })();
 
-  
   const createDishesTable = knex.schema.createTable('dishes', (table) => {
     table.increments('id');
     table.string('name').notNullable();
@@ -50,7 +45,7 @@ exports.up = async function(knex, Promise) {
 
   const createOrdersTable = knex.schema.createTable('orders', (table) => {
     table.increments('id');
-    table.timestamp('created_at');
+    table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('received_at')
     table.timestamp('completed_at');
     table.timestamp('pickup_at');
@@ -76,7 +71,6 @@ exports.up = async function(knex, Promise) {
   })();
 
   await Promise.all([createLineItems, createOrdersTable ,createMenuItemsTable, createDishesTable, createMenusTable, createRestaurantsTable]);
-
 };
 
 exports.down = function(knex, Promise) {
@@ -86,7 +80,6 @@ exports.down = function(knex, Promise) {
   const dropMenusTable  = dropMenuItemsTable.then( () => knex.schema.dropTable('menus').return() )
   const dropOrdersTable = dropLineItemsTable.then( () => knex.schema.dropTable('orders').return() )
 
-  // DROP LAST Promise all these
   const dropRestaurantTable = Promise.all([
       dropMenuItemsTable,
       dropLineItemsTable,
@@ -100,7 +93,6 @@ exports.down = function(knex, Promise) {
     dropMenusTable,
     dropOrdersTable
   ]).then( () => { knex.schema.dropTable('dishes').return() } )
-
 
   return Promise.all([
       dropMenuItemsTable,
