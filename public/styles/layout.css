@@ -5,3 +5,86 @@ body {
 body h1 {
   color: #244751;
 }
+
+body {
+  background-color: #dddddd;
+  background-size: cover;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+nav span {
+  color: white;
+}
+
+nav .hours {
+  position: relative;
+  right: 0;
+  text-align: right;
+}
+
+.navbar-brand img {
+  width: 8em;
+  background-color: red;
+  border-radius: 5px;
+}
+
+.main {
+  height: 100%;
+  background: white;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.menu-item:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.menu-item:last-child {
+  border: none;
+}
+
+.menu-item h3, p {
+  font-size: 1rem;
+}
+
+.menu-item img {
+  width: 100px;
+  height: 100px;
+}
+
+.cart {
+  box-shadow: -10px 5px 5px #ccc;
+  position: fixed;
+  right: 10%;
+  height: 100%;
+  background: white;
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.subtotal-price {
+  text-align: right;
+}
+
+.cart button {
+  width: 100%;
+}

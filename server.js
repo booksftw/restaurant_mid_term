@@ -19,7 +19,7 @@ const DataHelpers = require('./utils/data-helpers.js');
 /**
  * How to get Data from database?
  * SAMPLE CODE - full list of functions in ./utils/data-helper.js file
- * 
+ *
  */
 
   // let result = DataHelpers.getRestaurant();
@@ -58,15 +58,27 @@ app.use("/api/users", usersRoutes(knex));
 /**
  *  *Demo - Get Data from DB
  *  Visit localhost:8080/get_data_demo and edit /views/get-data-sample.ejs to play with this
- * 
+ *
  */
 app.get("/demo", (req, res) => {
 
+  let result = DataHelpers.getRestaurant();
+  result.then( (value)=>{
+    console.log(value, 'val')
+
+    const restrauntData = value;
+    const templateData = {
+       restr: restrauntData
+    }
+    res.render("get-data-sample",templateData);
+  })
+
+
   /**
    * Important Note: I set up the demo for restraunts so it'll correctly output to the template. I didn't demo the Menus and Dishes but I validated the data.
-   * 
-   * 
-   * 
+   *
+   *
+   *
    */
 
 
@@ -74,10 +86,10 @@ app.get("/demo", (req, res) => {
   // let result = DataHelpers.getRestaurant();
   // result.then( (value)=>{
   // console.log(value, 'val')
-    
+
   //   const restrauntData = value;
   //   const templateData = {
-  //      restr: restrauntData     
+  //      restr: restrauntData
   //   }
   //   res.render("get-data-sample",templateData);
   // })
@@ -86,10 +98,10 @@ app.get("/demo", (req, res) => {
   // let menuResult = DataHelpers.getMenus();
   // menuResult.then( (value)=>{
   //   console.log(value, 'val menu')
-    
+
   //   const menuData = value;
   //   const templateData = {
-  //      restr: menuData     
+  //      restr: menuData
   //   }
   //   res.render("get-data-sample",templateData);
   // })
@@ -98,21 +110,30 @@ app.get("/demo", (req, res) => {
   //   let dishesResult = DataHelpers.getDishes();
   //   dishesResult.then( (value)=>{
   //   console.log(value, 'dish menu')
-    
+
   //   const dishResult = value;
   //   const templateData = {
-  //      restr: dishResult     
+  //      restr: dishResult
   //   }
   //   res.render("get-data-sample",templateData);
   // })
-
 
 
 });
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  let result = DataHelpers.getRestaurant();
+  result.then( (value)=>{
+    console.log(value, 'val')
+
+    const restrauntData = value;
+    const templateData = {
+       restr: restrauntData
+    }
+
+  res.render("index", templateData);
+  });
 });
 
 // Home page
