@@ -1,23 +1,22 @@
+const state = require('../../utils/state-service.js');
 exports.seed = function(knex, Promise) {
 
   /**
+   *  First promise deletes all the tables
+   *  Second promise inserts into tables
+   *  ...
    * 
-   * ~ You're connecting promises to clear the menu table then the empty menu table
-   * ~ You can refactor this using async and await maybe, or include Promise.all
-   * ~ There may be areas that you can make more dynamic and DRY
-   * ~ A new thought is that you might be able to wrap everything in Promise.all
-   * ~ Another thought is that you can pull in the schema table columns for a table and clear them that way dynamiclly.
-   * 
-   * ~In progress: Make table clear dyanamic.
    */
 
-  
-  const schemaTables = ['menus', 'dishes', 'menu_items', 'restaurants', 'orders', 'line_items']
+  const schemaTables = state.schemaTables;
 
   const deleteAllTables = new Promise( function(resolve, reject) {
+
     schemaTables.forEach( (tableName , i) => {
       //* Delete all tables rows
        const emptyMenus = knex.select().table(tableName)
+
+       //? Delete rows with id in array
        .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30])
        .del().return();
 
@@ -26,7 +25,6 @@ exports.seed = function(knex, Promise) {
       }
     })
   })
-
 
     return deleteAllTables.then( () => {
       return Promise.all([
@@ -40,7 +38,6 @@ exports.seed = function(knex, Promise) {
     })
     .then(() => {
       // * Enables autoincrement up to 10 for each table
-      // *
       return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
     })
 
