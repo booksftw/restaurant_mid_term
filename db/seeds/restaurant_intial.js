@@ -14,31 +14,21 @@ exports.seed = function(knex, Promise) {
   
   const schemaTables = ['menus', 'dishes', 'menu_items', 'restaurants', 'orders', 'line_items']
 
-  const deleteAllTables = new Promise( () => {
+  const deleteAllTables = new Promise( function(resolve, reject) {
+    schemaTables.forEach( (tableName , i) => {
+      //* Delete all tables rows
+       const emptyMenus = knex.select().table(tableName)
+       .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30])
+       .del().return();
 
-    schemaTables.forEach( (table) => {
-
+      if (i + 1 === schemaTables.length) {
+        resolve(true);
+      }
     })
   })
 
 
-
-
-
-  // const emptyMenus = knex.select().table('menus')
-  // .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
-  // .del().return();
-
-  // const emptyDishes = emptyMenus.then( () => {
-  //   knex.select().table('dishes')
-  //   .whereIn('id',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
-  //   .del().return();
-  // }).return() 
-
-    return emptyDishes.then( () => {
-    return knex('restaurants').del()
-    .then(function () {
-  
+    return deleteAllTables.then( () => {
       return Promise.all([
         // ? Omit id makes each new insert an increment id
         knex('restaurants').insert({id:1, name: 'Gio Cafe', logo_url:'https://cdn.websites.hibu.com/3446c3f773fc4983b12995f3adab4a82/dms3rep/multi/mobile/Cafe-Gio-logo.png', address:'201 Demacia st', phone_number:'123-456-7890', open_time: '07:00:00', close_time: '21:00:00' }),
@@ -54,7 +44,7 @@ exports.seed = function(knex, Promise) {
       return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
     })
 
-    })
+
 
   }
 
