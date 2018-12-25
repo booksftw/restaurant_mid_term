@@ -40,9 +40,6 @@ exports.seed = function(knex, Promise) {
       // * Enables autoincrement up to 10 for each table
       return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
     })
-
-
-
   }
 
 

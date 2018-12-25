@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * ~ In progress: Set up querys to give entire table in one query or figure out how to give the data and use in template together. 
+ */
+
+
 var knex = require('knex')({
     client: 'pg',
     connection: {
