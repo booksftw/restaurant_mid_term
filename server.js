@@ -14,6 +14,14 @@ const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
+// * Twilio SMS
+const accountSid = 'ACb04a19b41aca7affdb6398243477e0d6'; // Your Account SID from www.twilio.com/console
+const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from www.twilio.com/console
+
+const twilio = require('twilio');
+const client = new twilio(accountSid, authToken);
+
+
 const DataHelpers = require('./utils/data-helpers.js');
 
 
@@ -45,8 +53,9 @@ app.use("/api/users", usersRoutes(knex));
 
 /**
  *  ~ How to Get Data from DB?
- *  Here's a sample playground for you.
+ *  A sample playground for you.
  * 
+ *  Demo Page
  */
 app.get("/demo", (req, res) => {
   //
@@ -78,6 +87,7 @@ app.get("/demo", (req, res) => {
 
 });
 
+
 // Home page
 app.get("/", (req, res) => {
   let result = DataHelpers.getRestaurant();
@@ -93,11 +103,40 @@ app.get("/", (req, res) => {
   });
 });
 
-// Home page
+
+// Orders page
 app.get("/orders", (req, res) => {
   res.render("orders");
 });
 
+app.use('/orders/:restaurant_id/order-received', (req, res) => {
+  // * Restaurant received order via SMS
+  const twilioNumber = '+17784004460'; 
+  const restaurantNumber     = '+12504155392';
+
+  client.messages.create({
+    body: 'You have a new order restraunt owner',
+    to: restaurantNumber,  // Text this number
+    from: twilioNumber// From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid));
+})
+
+app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
+  // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
+
+  // Maybe an algorithm that decides how long it will take
+  // Sends txt to client with estimate time
+})
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+
+/** 
+ * ~ Twilio Experiements
+ */
+
+
+
