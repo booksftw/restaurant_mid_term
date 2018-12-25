@@ -12,13 +12,33 @@
   </head>
 
   <body>
-    <h1>Hello Worldz NZ !</h1>
+    <h1> Database Data to EJS playground !</h1>
+    <br><br>
 
-    <%= restr.name %>
-    <h1> <%= restr.name %> </h1>
-    <img src='<%= restr.logo_url %>' />
-    <p><%= restr.address %></p>
-    <p><%= restr.phone_number %></p>
-    
+    <div>
+      <h3> Restaurant Data </h3>
+      <p><%= restr.name %></p>
+      <img src=<%= restr.logo_url %> />
+      <p><%= restr.address %></p>
+      <p> <%= restr.phone_number %></p>
+      <p> open time: <%= restr.open_time %> </p>
+      <p> close time: <%= restr.close_time %> </p>
+    </div>
+
+    <div>
+      <h3> Menus Data </h3>
+      <p> <%= menus.name  %> </p>
+      <p> <%= menus.description  %> </p>
+      <p> <%= menus.restaurantid %> </p>
+    </div>
+
+    <div> 
+      <h3> Dishes Data </h3>
+      <p> <%= dishes[0].name %></p>
+      <p> <%= dishes[1].name %></p>
+      <p> <%= dishes[2].name %></p>
+    </div>
+
+
   </body>
 </html>

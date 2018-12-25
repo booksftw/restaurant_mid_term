@@ -2,17 +2,17 @@
 
 require('dotenv').config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
+const express = require("express");
+const bodyParser = require("body-parser");
+const sass = require("node-sass-middleware");
+const app = express();
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
+const knexConfig = require("./knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const morgan = require('morgan');
+const knexLogger = require('knex-logger');
 
 const DataHelpers = require('./utils/data-helpers.js');
 
@@ -22,10 +22,10 @@ const DataHelpers = require('./utils/data-helpers.js');
  *
  */
 
-  // let result = DataHelpers.getRestaurant();
-  // result.then( (value)=>{
-  //   console.log(value, 'val')
-  // })
+// let result = DataHelpers.getRestaurant();
+// result.then( (value)=>{
+//   console.log(value, 'val')
+// })
 
 /**
  * End Sample
@@ -43,7 +43,9 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -56,83 +58,52 @@ app.use(express.static("public"));
 app.use("/api/users", usersRoutes(knex));
 
 /**
- *  *Demo - Get Data from DB
- *  Visit localhost:8080/get_data_demo and edit /views/get-data-sample.ejs to play with this
- *
+ *  ~ How to Get Data from DB?
+ *  Here's a sample playground for you.
+ * 
  */
 app.get("/demo", (req, res) => {
+  //
+  // * Promise.all returns a single array with all the data.
+  // * We can handle that array with the .then operator.
+  //
+  //
+  let nzTestResult = Promise.all(
+    [
+      // ! Restaurants and Menus returning only the first key
+      DataHelpers.getRestaurant(),
+      DataHelpers.getMenus(),
+      DataHelpers.getDishes(),
+    ]
+  ).then(
+    (val) => {
+      // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
+      console.log(val[0], 'restraunt')
 
-  let result = DataHelpers.getRestaurant();
-  result.then( (value)=>{
-    console.log(value, 'val')
-
-    const restrauntData = value;
-    const templateData = {
-       restr: restrauntData
+      const templateData = {
+        restr: val[0],
+        menus: val[1],
+        dishes: val[2],
+        test: 'Merry Xmas'
+      }
+      res.render('get-data-sample', templateData);
     }
-    res.render("get-data-sample",templateData);
-  })
-
-
-  /**
-   * Important Note: I set up the demo for restraunts so it'll correctly output to the template. I didn't demo the Menus and Dishes but I validated the data.
-   *
-   *
-   *
-   */
-
-
-  // get Restraunts
-  // let result = DataHelpers.getRestaurant();
-  // result.then( (value)=>{
-  // console.log(value, 'val')
-
-  //   const restrauntData = value;
-  //   const templateData = {
-  //      restr: restrauntData
-  //   }
-  //   res.render("get-data-sample",templateData);
-  // })
-
-  // get Menus
-  // let menuResult = DataHelpers.getMenus();
-  // menuResult.then( (value)=>{
-  //   console.log(value, 'val menu')
-
-  //   const menuData = value;
-  //   const templateData = {
-  //      restr: menuData
-  //   }
-  //   res.render("get-data-sample",templateData);
-  // })
-
-  // get Dishes ! Returns array
-  //   let dishesResult = DataHelpers.getDishes();
-  //   dishesResult.then( (value)=>{
-  //   console.log(value, 'dish menu')
-
-  //   const dishResult = value;
-  //   const templateData = {
-  //      restr: dishResult
-  //   }
-  //   res.render("get-data-sample",templateData);
-  // })
-
+  )
 
 });
 
 // Home page
 app.get("/", (req, res) => {
   let result = DataHelpers.getRestaurant();
-  result.then( (value)=>{
+  result.then((value) => {
     console.log(value, 'val')
 
     const restrauntData = value;
     const templateData = {
-       restr: restrauntData
+      restr: restrauntData
     }
 
-  res.render("index", templateData);
+    res.render("index", templateData);
   });
 });
 

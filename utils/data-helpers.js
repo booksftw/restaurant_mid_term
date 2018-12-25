@@ -17,6 +17,7 @@ var knex = require('knex')({
 
 // Defines helper functions for saving and getting tweets, using the database `db`
 module.exports = {
+    // ~ Curently only returning the first restaurant
     getRestaurant: function() {
 
         return knex.select('*').from('restaurants')
@@ -30,6 +31,7 @@ module.exports = {
         });
     },
 
+    // ~ Currently only returning the first menu
     getMenus: function() {
 
         return knex.select('*').from('menus')
