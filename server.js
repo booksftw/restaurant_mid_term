@@ -87,7 +87,6 @@ app.get("/demo", (req, res) => {
 
 });
 
-
 // Home page
 app.get("/", (req, res) => {
   let result = DataHelpers.getRestaurant();
@@ -103,9 +102,10 @@ app.get("/", (req, res) => {
   });
 });
 
-
 // Orders page
-app.get("/orders", (req, res) => {
+app.get("/orders/:restaurant_id", (req, res) => {
+  // Get orders data for this restaurant id and pass to template
+
   res.render("orders");
 });
 
