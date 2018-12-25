@@ -16,20 +16,6 @@ const knexLogger = require('knex-logger');
 
 const DataHelpers = require('./utils/data-helpers.js');
 
-/**
- * How to get Data from database?
- * SAMPLE CODE - full list of functions in ./utils/data-helper.js file
- *
- */
-
-// let result = DataHelpers.getRestaurant();
-// result.then( (value)=>{
-//   console.log(value, 'val')
-// })
-
-/**
- * End Sample
- */
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
