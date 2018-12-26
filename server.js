@@ -105,7 +105,6 @@ app.get("/", (req, res) => {
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
-
   res.render("orders");
 });
 
@@ -132,11 +131,6 @@ app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-
-
-/** 
- * ~ Twilio Experiements
- */
 
 
 
