@@ -63,7 +63,7 @@ app.get("/demo", (req, res) => {
   // * We can handle that array with the .then operator.
   //
   //
-  let demoDat a = Promise.all(
+  let demoData = Promise.all(
     [
       // ! Restaurants and Menus returning only the first key
       DataHelpers.getRestaurant(),
