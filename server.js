@@ -54,7 +54,7 @@ app.use("/api/users", usersRoutes(knex));
 /**
  *  ~ How to Get Data from DB?
  *  A sample playground for you.
- * 
+ *
  *  Demo Page
  */
 app.get("/demo", (req, res) => {
@@ -105,12 +105,16 @@ app.get("/", (req, res) => {
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
+  let result = DataHelpers.getOrders();
+  result.then((value) => {
+    console.log('Orders', value);
+  });
   res.render("orders");
 });
 
 app.use('/orders/:restaurant_id/order-received', (req, res) => {
   // * Restaurant received order via SMS
-  const twilioNumber = '+17784004460'; 
+  const twilioNumber = '+17784004460';
   const restaurantNumber     = '+12504155392';
 
   client.messages.create({
@@ -131,6 +135,3 @@ app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-
-
-
