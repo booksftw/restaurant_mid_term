@@ -14,6 +14,8 @@ const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
+const bookshelf = require('bookshelf')(knex);
+
 // * Twilio SMS
 const accountSid = 'ACb04a19b41aca7affdb6398243477e0d6'; // Your Account SID from www.twilio.com/console
 const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from www.twilio.com/console
@@ -107,9 +109,11 @@ app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    console.log('Orders', value);
+    const templateData = value;
+
+    console.log('Order Data', templateData[0].order_id);
+    res.render("orders", templateData);
   });
-  res.render("orders");
 });
 
 app.use('/orders/:restaurant_id/order-received', (req, res) => {
@@ -118,7 +122,7 @@ app.use('/orders/:restaurant_id/order-received', (req, res) => {
   const restaurantNumber     = '+12504155392';
 
   client.messages.create({
-    body: 'You have a new order restraunt owner',
+    body: 'You have a new order restaurant owner',
     to: restaurantNumber,  // Text this number
     from: twilioNumber// From a valid Twilio number
   })
