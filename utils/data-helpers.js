@@ -15,48 +15,7 @@ const knex = require('knex')({
   }
 });
 
-// const bookshelf = require('bookshelf')(knex);
-//
-// var MenuItem = bookshelf.Model.extend({
-//   tableName: 'menu_items',
-//   menu: function(){
-//     return this.belongsTo(Menu)
-//   },
-//   dish: function(){
-//     return this.belongsTo(Dish)
-//   }
-// });
-//
-// var Order = bookshelf.Model.extend({
-//   tableName: 'orders',
-//   menuItems: function() {
-//     return this.hasMany(MenuItems);
-//   }
-// });
-//
-// var Restaurant = bookshelf.Model.extend({
-//   tableName: 'restaurants',
-//   menus: function(){
-//     return this.hasMany(Menus);
-//   }
-// });
-//
-// var Menu = bookshelf.Model.extend({
-//   tableName: 'menus',
-//   menuItems: function() {
-//     return this.hasMany(MenuItem);
-//   },
-//   restaurant: function(){
-//     return this.belongsTo(Restaurant);
-//   }
-// });
-//
-// Menu.collection().fetch().then(collection =>{
-//   console.log(collection.first().menuItems().first())
-// })
-
-
-
+var NestHydrationJS = require('nesthydrationjs')();
 
 
 // Defines helper functions for saving and getting tweets, using the database `db`
@@ -101,29 +60,24 @@ module.exports = {
 
     getOrders: function(restId) {
       return knex.select(
-        'order_id',
-        'orders.name',
-        'orders.phone',
-        'items.id as dish_id',
-        'items.name as dish_name',
-        'order_items.qty as dish_qty',
-        'orders.notes',
-        'orders.created_at',
-        'orders.received_at',
-        'orders.completed_at',
-        'orders.pickup_at',
-        'orders.restaurant_id'
-      ).from('order_items').as('order')
-      .join('orders', 'order_id', '=', 'orders.id')
-      .join('items', 'item_id', '=', 'items.id')
+        'orders.id as _id',
+        'orders.name as _name',
+        'orders.phone as _phone',
+        'items.id as _item_id',
+        'items.name as _item_name',
+        'order_items.qty as _item_qty',
+        'orders.notes as _notes',
+        'orders.created_at as _createdAt',
+        'orders.received_at as _receivedAt',
+        'orders.completed_at as _completedAt',
+        'orders.pickup_at as _pickupAt',
+        'orders.restaurant_id as _restaurantId'
+      ).from('orders').as('order')
+      .join('order_items', 'orders.id', '=', 'order_id')
+      .join('items', 'order_items.item_id', '=', 'items.id')
       .orderBy('order_id')
-      .then(function (rest){
-          if(rest.length > 0){
-              return Promise.resolve(rest)
-          } else {
-              return Promise.resolve(0)
-          }
-      });
+      .then(NestHydrationJS.nest)
+
     }
 
 }
