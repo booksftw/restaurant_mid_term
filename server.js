@@ -51,6 +51,39 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+
+/** 
+ * ~ Passport Authentication 
+ */
+
+// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback. 
+
+var JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+    
+var opts = {}
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = 'secret';
+opts.issuer = 'accounts.examplesoft.com';
+opts.audience = 'yoursite.net';
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    User.findOne({id: jwt_payload.sub}, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+            // or you could create a new account
+        }
+    });
+}));
+
+
+// ~ END OF PASPORT
+
+
 /**
  *  ~ How to Get Data from DB?
  *  A sample playground for you.
@@ -58,6 +91,9 @@ app.use("/api/users", usersRoutes(knex));
  *  Demo Page
  */
 app.get("/demo", (req, res) => {
+  console.log('hi')
+  console.log(req.query)
+
   //
   // * Promise.all returns a single array with all the data.
   // * We can handle that array with the .then operator.
@@ -73,7 +109,7 @@ app.get("/demo", (req, res) => {
   ).then(
     (val) => {
       // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
-      console.log(val[0], 'restraunt')
+      // console.log(val[0], 'restraunt')
 
       const templateData = {
         restr: val[0],
@@ -91,7 +127,7 @@ app.get("/demo", (req, res) => {
 app.get("/", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
-    console.log(value, 'val')
+    // console.log(value, 'val')
 
     const restrauntData = value;
     const templateData = {
@@ -133,35 +169,4 @@ app.listen(PORT, () => {
 });
 
 
-/** 
- * ~ Passport Authentication 
- */
 
-// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback. 
-
-var passport = require('passport')
-, LocalStrategy = require('passport-local').Strategy;
-
-// ? The passport configs are running on mongo
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) { return done(null, false); }
-//       if (!user.verifyPassword(password)) { return done(null, false); }
-//       return done(null, user);
-//     });
-//   }
-// ));
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    const user = {username:'nick',password:'password'}
-    return done(null, user)
-  }
-));
-
-app.post('/demo', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
