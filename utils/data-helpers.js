@@ -15,45 +15,45 @@ const knex = require('knex')({
   }
 });
 
-const bookshelf = require('bookshelf')(knex);
-
-var MenuItem = bookshelf.Model.extend({
-  tableName: 'menu_items',
-  menu: function(){
-    return this.belongsTo(Menu)
-  },
-  dish: function(){
-    return this.belongsTo(Dish)
-  }
-});
-
-var Order = bookshelf.Model.extend({
-  tableName: 'orders',
-  menuItems: function() {
-    return this.hasMany(MenuItems);
-  }
-});
-
-var Restaurant = bookshelf.Model.extend({
-  tableName: 'restaurants',
-  menus: function(){
-    return this.hasMany(Menus);
-  }
-});
-
-var Menu = bookshelf.Model.extend({
-  tableName: 'menus',
-  menuItems: function() {
-    return this.hasMany(MenuItem);
-  },
-  restaurant: function(){
-    return this.belongsTo(Restaurant);
-  }
-});
-
-Menu.collection().fetch().then(collection =>{
-  console.log(collection.first().menuItems().first())
-})
+// const bookshelf = require('bookshelf')(knex);
+//
+// var MenuItem = bookshelf.Model.extend({
+//   tableName: 'menu_items',
+//   menu: function(){
+//     return this.belongsTo(Menu)
+//   },
+//   dish: function(){
+//     return this.belongsTo(Dish)
+//   }
+// });
+//
+// var Order = bookshelf.Model.extend({
+//   tableName: 'orders',
+//   menuItems: function() {
+//     return this.hasMany(MenuItems);
+//   }
+// });
+//
+// var Restaurant = bookshelf.Model.extend({
+//   tableName: 'restaurants',
+//   menus: function(){
+//     return this.hasMany(Menus);
+//   }
+// });
+//
+// var Menu = bookshelf.Model.extend({
+//   tableName: 'menus',
+//   menuItems: function() {
+//     return this.hasMany(MenuItem);
+//   },
+//   restaurant: function(){
+//     return this.belongsTo(Restaurant);
+//   }
+// });
+//
+// Menu.collection().fetch().then(collection =>{
+//   console.log(collection.first().menuItems().first())
+// })
 
 
 
@@ -88,8 +88,8 @@ module.exports = {
         });
     },
 
-    getDishes: function() {
-        return knex.select('*').from('dishes')
+    getitems: function() {
+        return knex.select('*').from('items')
         .then(function (rest){
             if(rest.length > 0){
                 return Promise.resolve(rest)
@@ -104,18 +104,18 @@ module.exports = {
         'order_id',
         'orders.name',
         'orders.phone',
-        'dishes.id as dish_id',
-        'dishes.name as dish_name',
-        'line_items.qty as dish_qty',
+        'items.id as dish_id',
+        'items.name as dish_name',
+        'order_items.qty as dish_qty',
         'orders.notes',
         'orders.created_at',
         'orders.received_at',
         'orders.completed_at',
         'orders.pickup_at',
         'orders.restaurant_id'
-      ).from('line_items').as('order')
+      ).from('order_items').as('order')
       .join('orders', 'order_id', '=', 'orders.id')
-      .join('dishes', 'menu_item_id', '=', 'dishes.id')
+      .join('items', 'item_id', '=', 'items.id')
       .orderBy('order_id')
       .then(function (rest){
           if(rest.length > 0){

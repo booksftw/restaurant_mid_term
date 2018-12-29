@@ -1,4 +1,4 @@
-const dishesTable = [
+const itemsTable = [
 {
   id: 1,
   name: "Gio's Hearty Breakfas",

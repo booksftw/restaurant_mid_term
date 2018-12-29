@@ -70,17 +70,17 @@ app.get("/demo", (req, res) => {
       // ! Restaurants and Menus returning only the first key
       DataHelpers.getRestaurant(),
       DataHelpers.getMenus(),
-      DataHelpers.getDishes(),
+      DataHelpers.getItems(),
     ]
   ).then(
     (val) => {
-      // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
-      console.log(val[0], 'restraunt')
+      // ? val[0] - restaurant, val[1] - menus, val[2] - items
+      console.log(val[0], 'restaurant')
 
       const templateData = {
         restr: val[0],
         menus: val[1],
-        dishes: val[2],
+        items: val[2],
         test: 'Merry Xmas'
       }
       res.render('get-data-sample', templateData);
@@ -95,9 +95,9 @@ app.get("/", (req, res) => {
   result.then((value) => {
     console.log(value, 'val')
 
-    const restrauntData = value;
+    const restaurantData = value;
     const templateData = {
-      restr: restrauntData
+      restr: restaurantData
     }
 
     res.render("index", templateData);
@@ -109,9 +109,12 @@ app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    const templateData = value;
+    console.log(value)
+    const orderData = value;
+    const templateData = {
+      order: orderData
+    }
 
-    console.log('Order Data', templateData[0].order_id);
     res.render("orders", templateData);
   });
 });
