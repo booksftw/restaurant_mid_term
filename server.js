@@ -21,6 +21,17 @@ const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from 
 const twilio = require('twilio');
 const client = new twilio(accountSid, authToken);
 
+// * Cookie sessions
+var cookieSession = require('cookie-session')
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+ 
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
 
 const DataHelpers = require('./utils/data-helpers.js');
 
