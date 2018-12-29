@@ -14,6 +14,8 @@ const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
+const bookshelf = require('bookshelf')(knex);
+
 // * Twilio SMS
 const accountSid = 'ACb04a19b41aca7affdb6398243477e0d6'; // Your Account SID from www.twilio.com/console
 const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from www.twilio.com/console
@@ -54,7 +56,7 @@ app.use("/api/users", usersRoutes(knex));
 /**
  *  ~ How to Get Data from DB?
  *  A sample playground for you.
- * 
+ *
  *  Demo Page
  */
 app.get("/demo", (req, res) => {
@@ -68,17 +70,17 @@ app.get("/demo", (req, res) => {
       // ! Restaurants and Menus returning only the first key
       DataHelpers.getRestaurant(),
       DataHelpers.getMenus(),
-      DataHelpers.getDishes(),
+      DataHelpers.getItems(),
     ]
   ).then(
     (val) => {
-      // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
-      console.log(val[0], 'restraunt')
+      // ? val[0] - restaurant, val[1] - menus, val[2] - items
+      console.log(val[0], 'restaurant')
 
       const templateData = {
         restr: val[0],
         menus: val[1],
-        dishes: val[2],
+        items: val[2],
         test: 'Merry Xmas'
       }
       res.render('get-data-sample', templateData);
@@ -93,9 +95,9 @@ app.get("/", (req, res) => {
   result.then((value) => {
     console.log(value, 'val')
 
-    const restrauntData = value;
+    const restaurantData = value;
     const templateData = {
-      restr: restrauntData
+      restr: restaurantData
     }
 
     res.render("index", templateData);
@@ -105,16 +107,25 @@ app.get("/", (req, res) => {
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
-  res.render("orders");
+  let result = DataHelpers.getOrders();
+  result.then((value) => {
+    console.log(value)
+    const orderData = value;
+    const templateData = {
+      order: orderData
+    }
+
+    res.render("orders", templateData);
+  });
 });
 
 app.use('/orders/:restaurant_id/order-received', (req, res) => {
   // * Restaurant received order via SMS
-  const twilioNumber = '+17784004460'; 
+  const twilioNumber = '+17784004460';
   const restaurantNumber     = '+12504155392';
 
   client.messages.create({
-    body: 'You have a new order restraunt owner',
+    body: 'You have a new order restaurant owner',
     to: restaurantNumber,  // Text this number
     from: twilioNumber// From a valid Twilio number
   })
@@ -133,11 +144,11 @@ app.listen(PORT, () => {
 });
 
 
-/** 
- * ~ Passport Authentication 
+/**
+ * ~ Passport Authentication
  */
 
-// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback. 
+// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
 
 var passport = require('passport')
 , LocalStrategy = require('passport-local').Strategy;
@@ -160,7 +171,7 @@ passport.use(new LocalStrategy(
   }
 ));
 
-app.post('/demo', 
+app.post('/demo',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
