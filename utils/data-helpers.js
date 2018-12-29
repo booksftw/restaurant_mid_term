@@ -18,10 +18,6 @@ const knex = require('knex')({
 const bookshelf = require('bookshelf')(knex);
 
 var MenuItem = bookshelf.Model.extend({
-  tableName: 'menus'
-})
-
-var MenuItem = bookshelf.Model.extend({
   tableName: 'menu_items',
   menu: function(){
     return this.belongsTo(Menu)
@@ -50,7 +46,7 @@ var Menu = bookshelf.Model.extend({
   menuItems: function() {
     return this.hasMany(MenuItem);
   },
-  restraunt: function(){
+  restaurant: function(){
     return this.belongsTo(Restaurant);
   }
 });
