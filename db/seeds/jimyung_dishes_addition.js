@@ -8,6 +8,6 @@ exports.seed = function(knex, Promise) {
     knex('items').insert({name: "Oatmeal & Quinoa", description: "Sundried cranberries & toasted almonds. Served with fresh fruit.", image_url: "https://foodal.com/wp-content/uploads/2017/10/The-Best-Hot-Breakfast-Cereal-with-Strawberries-and-Nuts.jpg", price: 11 })
   ]).then( () => {
     // * Enables autoincrement up to 10 for each table
-    return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
+    // return knex.raw("ALTER SEQUENCE restaurants_id_seq RESTART WITH 10")
   });
 };

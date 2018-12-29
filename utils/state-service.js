@@ -1,6 +1,6 @@
 
 const state = {
-    schemaTables : ['menus', 'items', 'menu_items', 'restaurants', 'orders', 'order_items']
+    schemaTables : 
 }
 
 module.exports = state;
