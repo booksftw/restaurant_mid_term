@@ -28,39 +28,67 @@
         <div class="col-8">
           <div class="container main">
             <h1>Main</h1>
-              <hr/>
-              <div class="menu-item">
-                <div class="menu-text">
-                  <h3 class="menu-name">breakfast</h3>
-                  <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                  <p>$<span class="menu-price">8.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
-                </div>
-                <div class="menu-img">
-                  <img src="http://www.cbc.ca/inthekitchen/assets_c/2013/10/Steak'nEggs26-thumb-596x350-329015.jpg" class="rounded" alt="breakfast">
-                </div>
+            <hr/>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[5].name %></h3>
+                <p><%= dishes[5].description %></p>
+                <p>$<span class="menu-price"><%= dishes[5].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
               </div>
-              <div class="menu-item">
-                <div class="menu-text">
-                  <h3 class="menu-name">cheese burger</h3>
-                  <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                  <p>$<span class="menu-price">10.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
-                </div>
-
-                <div class="menu-img">
-                  <img src="https://thumbor.thedailymeal.com/klmKpzikk-FMghgKa2U088jNDKg=/840x565/https://www.thedailymeal.com/sites/default/files/story/how-many-calories-cheeseburger-shutterstock-MAIN.jpg" class="rounded" alt="cheese burger">
-                </div>
+              <div class="menu-img">
+                <img src="<%= dishes[5]['image_url'] %>" class="rounded" alt="breakfast">
               </div>
-              <div class="menu-item">
-                <div class="menu-text">
-                 <h3 class="menu-name">pancakes</h3>
-                 <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                 <p>$<span class="menu-price">9.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
-                </div>
-                <div class="menu-img">
-                  <img src="https://www.eggs.ca/assets/RecipePhotos/Fluffy-Pancakes-New-CMS.jpg" class="rounded" alt="pancakes">
-                </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[4].name %></h3>
+                <p><%= dishes[4].description %></p>
+                <p>$<span class="menu-price"><%= dishes[4].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
               </div>
-
+              <div class="menu-img">
+                <img src="<%= dishes[4]['image_url'] %>" class="rounded" alt="breakfast">
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[3].name %></h3>
+                <p><%= dishes[3].description %></p>
+                <p>$<span class="menu-price"><%= dishes[3].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
+              </div>
+              <div class="menu-img">
+                <img src="<%= dishes[3]['image_url'] %>" class="rounded" alt="breakfast">
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[1].name %></h3>
+                <p><%= dishes[1].description %></p>
+                <p>$<span class="menu-price"><%= dishes[1].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
+              </div>
+              <div class="menu-img">
+                <img src="<%= dishes[1]['image_url'] %>" class="rounded" alt="breakfast">
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[2].name %></h3>
+                <p><%= dishes[2].description %></p>
+                <p>$<span class="menu-price"><%= dishes[2].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
+              </div>
+              <div class="menu-img">
+                <img src="<%= dishes[2]['image_url'] %>" class="rounded" alt="breakfast">
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-text">
+                <h3 class="menu-name"><%= dishes[0].name %></h3>
+                <p><%= dishes[0].description %></p>
+                <p>$<span class="menu-price"><%= dishes[0].price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning" type="button">Add</button></p>
+              </div>
+              <div class="menu-img">
+                <img src="<%= dishes[0]['image_url'] %>" class="rounded" alt="breakfast">
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-3 cart">
@@ -70,11 +98,11 @@
             <button type="button" class="btn btn-danger">CEHCK OUT</button>
             <div class="user-name">
               <p>Name: </p>
-              <input type='text'>
+              <input type='name'>
             </div>
             <div class="user-phone">
               <p>Phone number: </p>
-              <input type='text' placeholder="###-###-####">
+              <input type='phone_number' placeholder="###-###-####">
             </div>
             <hr/>
             <div class="subtotal">

@@ -24,6 +24,10 @@ button {
   background: white;
 }
 
+.menu-text {
+  margin-right: 0.5em;
+}
+
 .menu-img {
   text-align: right;
 }
@@ -40,12 +44,23 @@ button {
   border: none;
 }
 
-.menu-item h3, p {
+.menu-item p {
   font-size: 1rem;
+}
+
+.menu-item h3 {
+  font-size: 1.3rem;
 }
 
 .menu-item img {
   width: 18em;
+  height: 12em;
+}
+
+.btn-warning {
+  width: 42px;
+  height: 30px;
+  padding: 0;
 }
 
 .cart {
@@ -58,6 +73,11 @@ button {
 
 .cart p {
   margin: 0;
+}
+
+.cart em {
+  font-size: 1.1rem;
+  color: #285091;
 }
 
 .subtotal {
