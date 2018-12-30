@@ -109,7 +109,7 @@ app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    console.log(value)
+    console.log(value[0])
     const orderData = value;
     const templateData = {
       order: orderData
