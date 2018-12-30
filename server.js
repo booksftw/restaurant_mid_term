@@ -25,7 +25,7 @@ const client = new twilio(accountSid, authToken);
 
 // * Cookie sessions
 const cookieSession = require('cookie-session')
-
+// ? bcrypt coming soon
 
 app.use(cookieSession({
   name: 'session',
@@ -70,22 +70,61 @@ app.use("/api/users", usersRoutes(knex));
  * ~ Custom Authentication 
  */
 
+function isUserValid(username, password) {
+  //check server
+  // maybe check browser
+  /* returns Boolean */
+  return true
+}
+function getUserRole(user) { /*returns customer or restaurant*/}
+
+
 app.use( function (req,res,next) {
   console.log('Time' , Date.now())
 
-  // * call a function to check authentication
-  // STORE AND CHECK COOKIE TO AUTHENTICATED
-  const userAuthenticated = true;
+  // Validate User Cookie
+  const userAuthenticated = true;// isUserAuthenticated()
   
   // User not authenticated redirect to login/register page
-  // User authenticated
-    // show visited route
   userAuthenticated ? next() : res.send('login')
+})
 
+app.get('/login', (req, res) => {
+
+  res.render('login')
+})
+
+app.get('/test', (req, res) => {
+  // const cookie;
+  console.log('test');
+  console.log(req.session.user)
+  console.log('user above')
+  res.send('test');
+})
+
+app.post('/login', (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
+  
+  // Check valid user
+    // True: create cookie session
+    // False: redirect to login page with param to show error
+  const userIsValid = isUserValid(username,password); // ? Pull this data from the database to validate atm just returning true
+  if (userIsValid) {
+    // Create cookie session
+    req.session.user = {user:'nick', pass:'pass', role:'something'}
+    // Get user role
+    // redirect to appropiate page and Make sure the middleware is set for these guys. 
+    res.redirect('/test')
+  } else {
+    // redirect to login page with params to show error
+  }
 
 })
 
-
+/**
+ * * End Custom Auth
+ */
 
 /**
  *  ~ How to Get Data from DB?
@@ -102,6 +141,8 @@ app.get("/demo", (req, res) => {
   // * We can handle that array with the .then operator.
   //
   //
+
+
   let demoData = Promise.all(
     [
       // ! Restaurants and Menus returning only the first key
