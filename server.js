@@ -71,10 +71,10 @@ app.use("/api/users", usersRoutes(knex));
  */
 
 function isUserValid(username, password) {
-  //check server
-  // maybe check browser
-  /* returns Boolean */
-  return true
+  //check server and validate
+  // maybe check browser and validate
+ 
+  return true  /* returns Boolean */
 }
 function getUserRole(user) { /*returns customer or restaurant*/}
 
@@ -90,18 +90,15 @@ app.use( function (req,res,next) {
 })
 
 app.get('/login', (req, res) => {
-
-  res.render('login')
+  const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
+  res.render('login', {error: hasError})
 })
 
 app.get('/test', (req, res) => {
-  // const cookie;
-  console.log('test');
-  console.log(req.session.user)
-  console.log('user above')
-  res.send('test');
+  res.send('IF YOU ARE A CUSTOMER ROLE YOU WILL SEE CUSTOMER PAGE. ELSE YOU ARE A RESTAURANT OWN AND WILL SEE THAT USER STORY');
 })
 
+// ! Users register by seeding for mvp
 app.post('/login', (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -109,6 +106,7 @@ app.post('/login', (req, res) => {
   // Check valid user
     // True: create cookie session
     // False: redirect to login page with param to show error
+
   const userIsValid = isUserValid(username,password); // ? Pull this data from the database to validate atm just returning true
   if (userIsValid) {
     // Create cookie session
@@ -118,6 +116,9 @@ app.post('/login', (req, res) => {
     res.redirect('/test')
   } else {
     // redirect to login page with params to show error
+    const error = true;
+
+    res.redirect('/login?error=true')
   }
 
 })
