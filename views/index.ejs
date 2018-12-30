@@ -20,7 +20,7 @@
         <span><%= restr.name %><br><%= restr['phone_number']%><br><%= restr.address%></span>
       </div>
       <div class="navbar-nav">
-       <span class="hours navbar-right">Restaurant hours<br>Mon - Fri 7:00 ~ 21:00<br>Weekends 9:00 ~ 19:00</span>
+       <span class="hours navbar-right">Restaurant hours<br>Mon - Sun <%= restr['open_time'] %> ~ <%= restr['close_time']%></span>
       </div>
     </nav>
     <div class="container">
@@ -31,9 +31,9 @@
               <hr/>
               <div class="menu-item">
                 <div class="menu-text">
-                 <h3>breakfast</h3>
-                 <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                 <p>$12.99</p>
+                  <h3 class="menu-name">breakfast</h3>
+                  <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
+                  <p>$<span class="menu-price">8.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
                 </div>
                 <div class="menu-img">
                   <img src="http://www.cbc.ca/inthekitchen/assets_c/2013/10/Steak'nEggs26-thumb-596x350-329015.jpg" class="rounded" alt="breakfast">
@@ -41,19 +41,20 @@
               </div>
               <div class="menu-item">
                 <div class="menu-text">
-                 <h3>cheese burger</h3>
-                 <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                 <p>$12.99</p>
+                  <h3 class="menu-name">cheese burger</h3>
+                  <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
+                  <p>$<span class="menu-price">10.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
                 </div>
+
                 <div class="menu-img">
                   <img src="https://thumbor.thedailymeal.com/klmKpzikk-FMghgKa2U088jNDKg=/840x565/https://www.thedailymeal.com/sites/default/files/story/how-many-calories-cheeseburger-shutterstock-MAIN.jpg" class="rounded" alt="cheese burger">
                 </div>
               </div>
               <div class="menu-item">
                 <div class="menu-text">
-                 <h3>pancakes</h3>
+                 <h3 class="menu-name">pancakes</h3>
                  <p>It prepare is ye nothing blushes up brought. Or as gravity pasture limited evening on. Wicket around beauty say she.</p>
-                 <p>$12.99</p>
+                 <p>$<span class="menu-price">9.99</span> x <input class="qty" type="number" value="1" min="0" max="15"><button type="button">Add</button></p>
                 </div>
                 <div class="menu-img">
                   <img src="https://www.eggs.ca/assets/RecipePhotos/Fluffy-Pancakes-New-CMS.jpg" class="rounded" alt="pancakes">
@@ -66,6 +67,16 @@
           <div class="container">
             <h1>Cart</h1>
             <hr/>
+            <button type="button" class="btn btn-danger">CEHCK OUT</button>
+            <div class="user-name">
+              <p>Name: </p>
+              <input type='text'>
+            </div>
+            <div class="user-phone">
+              <p>Phone number: </p>
+              <input type='text' placeholder="###-###-####">
+            </div>
+            <hr/>
             <div class="subtotal">
               <div class="subtotal-text">
                 <p>Subtotal:</p>
@@ -73,26 +84,15 @@
                 <p class="total">Total:</p>
               </div>
               <div class="subtotal-price">
-                <p>$12.99</p>
-                <p>$2.14</p>
-                <p class="total">$15.13</p>
+                <p>$<span class="sub">0.00</span></p>
+                <p>$<span class="tax">0.00</span></p>
+                <p>$<span class="tot">0.00</span></p>
               </div>
             </div>
             <hr/>
             <div class="item-added">
 
             </div>
-            <hr/>
-            <div class="user-name">
-              Name:
-              <input type='text'>
-            </div>
-            <div class="user-phone">
-              Phone number:
-              <input type='text' placeholder="###-###-####">
-            </div>
-            <hr/>
-            <button type="button" class="btn btn-danger">CEHCK OUT</button>
           </div>
         </div>
       </div>

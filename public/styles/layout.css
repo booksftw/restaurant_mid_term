@@ -11,25 +11,11 @@ body {
   background-size: cover;
 }
 
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+button {
+  border-radius: 5px;
 }
 
-nav span {
-  color: white;
-}
-
-nav .hours {
-  position: relative;
-  right: 0;
-  text-align: right;
-}
-
-.navbar-brand img {
-  width: 8em;
-  background-color: red;
+.qty {
   border-radius: 5px;
 }
 
@@ -38,17 +24,16 @@ nav .hours {
   background: white;
 }
 
+.menu-img {
+  text-align: right;
+}
+
 .menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem;
+  padding: 0.8rem;
   border-bottom: 1px solid #ddd;
-}
-
-.menu-item:hover {
-  opacity: 0.5;
-  cursor: pointer;
 }
 
 .menu-item:last-child {
@@ -60,8 +45,7 @@ nav .hours {
 }
 
 .menu-item img {
-  width: 100px;
-  height: 100px;
+  width: 18em;
 }
 
 .cart {
@@ -70,6 +54,10 @@ nav .hours {
   right: 10%;
   height: 100%;
   background: white;
+}
+
+.cart p {
+  margin: 0;
 }
 
 .subtotal {
@@ -86,5 +74,6 @@ nav .hours {
 }
 
 .cart button {
+  margin-bottom: 1em;
   width: 100%;
 }
