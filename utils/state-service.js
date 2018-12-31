@@ -1,6 +1,6 @@
 
 const state = {
-    schemaTables : 
+    user_access: {customer: []}
 }
 
 module.exports = state;

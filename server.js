@@ -61,6 +61,37 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+
+/**
+ * ~ Custom Route Guards
+ */
+app.get('*' , (req,res,next) => {
+  const role = req.session.user.role//req.session == null ? null  : req.session.user.role
+  const url = req.url
+  console.log(role) // customer
+
+  //* Not logged in
+  if ( !url.includes('/login') ) {
+
+    role == null ? res.redirect('/login') : null
+  }
+
+  //* No guard on these pages
+  url.includes('/login') ? next(): null
+
+  //* Guard URL by cookie role 
+  if (role == 'customer') {
+    // allow only customer routes
+    url.includes('/shop') ? next() : res.redirect('/login')
+  } else if (role == 'owner') {
+    // allow only owner routes
+    url.includes('/orders') ? next() :res.redirect('/login')
+  }
+
+
+  // next()
+})
+
 /** 
  * ~ Custom Authentication 
  */
@@ -97,8 +128,6 @@ function validateUser(req, res, username, password) {
 
 }
 
-
-// *
 app.post('/login', (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -110,18 +139,7 @@ app.get('/login', (req, res) => {
   res.render('login', {error: hasError})
 })
 
-/**
- * ~ Custom Route Guards
- */
-app.use( function (req,res,next) {
-  console.log('Time' , Date.now())
 
-  // Validate User Cookie
-  const userAuthenticated = true;// isUserAuthenticated()
-  
-  // User not authenticated redirect to login/register page
-  userAuthenticated ? next() : res.send('login')
-})
 
 
 /**
@@ -154,8 +172,12 @@ app.get("/demo", (req, res) => {
 
 });
 
+app.get('/', (req, res) => {
+  res.send('I updated this route to /shop to support authentication and user stories based on their acess rights.  -NZ')
+})
+
 // Home page
-app.get("/", (req, res) => {
+app.get("/shop", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
     // console.log(value, 'val')
