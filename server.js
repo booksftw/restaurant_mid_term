@@ -68,12 +68,63 @@ app.use("/api/users", usersRoutes(knex));
  * ~ Custom Authentication 
  */
 
-function isUserValid(username, password) {
+
+//*
+function validateUser(req, res, username, password) {
+
+  async function redirectToPageByRole(user) {
+    const restaurants = await DataHelpers.getRestaurant(false);
+    console.log(restaurants, 'restrs')
+    const {role} = user
+    console.log(role, 'role')
+    role === 'customer' ? res.redirect('/') : null 
+    role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and 
+  }
+
   //check server and validate
-  // maybe check browser and validate
-  return true  /* returns Boolean */
+  function grantUserAccess(user){
+    console.log('granting you access')
+      // Create cookie session
+      const {email, password, role} = user
+      req.session.user = {user:email, pass: password, role:role}
+      redirectToPageByRole(user)
+  }
+  
+  function rejectUserAccess(){
+    console.log('you ve been rejected')
+    res.redirect('/login?error=true')
+  }
+
+  (async function asyncFunc() {
+    const users = await DataHelpers.getUsers()
+      const matchedUser = users.filter( usr => {
+        return usr.email == username && usr.password == password
+      })
+      matchedUser.length > 0 ? grantUserAccess(matchedUser[0]) : rejectUserAccess()
+  })()
+
 }
-function getUserRole(user) { /*returns customer or restaurant*/}
+
+
+// *
+app.post('/login', (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
+  
+  // Check valid user
+    // True: create cookie session
+    // False: redirect to login page with param to show error
+
+   validateUser(req ,res, username, password); // ? Pull this data from the database to validate atm just returning true
+  // res.end('end in post /login') // ? COMMENT OUT
+})
+
+
+
+
+
+
+
 
 
 app.use( function (req,res,next) {
@@ -95,30 +146,7 @@ app.get('/test', (req, res) => {
   res.send('IF YOU ARE A CUSTOMER ROLE YOU WILL SEE CUSTOMER PAGE. ELSE YOU ARE A RESTAURANT OWN AND WILL SEE THAT USER STORY');
 })
 
-// ! Users register by seeding for mvp
-app.post('/login', (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
-  
-  // Check valid user
-    // True: create cookie session
-    // False: redirect to login page with param to show error
 
-  const userIsValid = isUserValid(username,password); // ? Pull this data from the database to validate atm just returning true
-  if (userIsValid) {
-    // Create cookie session
-    req.session.user = {user:'nick', pass:'pass', role:'something'}
-    // Get user role
-    // redirect to appropiate page and Make sure the middleware is set for these guys. 
-    res.redirect('/test')
-  } else {
-    // redirect to login page with params to show error
-    const error = true;
-
-    res.redirect('/login?error=true')
-  }
-
-})
 
 /**
  * * End Custom Auth
@@ -143,9 +171,8 @@ app.get("/demo", (req, res) => {
 
   let demoData = Promise.all(
     [
-      // ! Restaurants and Menus returning only the first key
-      DataHelpers.getRestaurant(),
-      DataHelpers.getMenus(),
+      DataHelpers.getRestaurant(true),
+      DataHelpers.getMenus(true),
       DataHelpers.getItems(),
     ]
   ).then(

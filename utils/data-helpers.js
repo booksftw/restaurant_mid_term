@@ -21,28 +21,28 @@ var NestHydrationJS = require('nesthydrationjs')();
 // Defines helper functions for saving and getting tweets, using the database `db`
 module.exports = {
     // ~ Curently only returning the first restaurant
-    getRestaurant: function() {
+    getRestaurant: function(onlyFirstRestr) {
 
         return knex.select('*').from('restaurants')
             .then(function (rest){
-            if(rest.length > 0){
+            if(onlyFirstRestr){
                 return Promise.resolve(rest[0])
             } else {
-                return Promise.resolve(0)
+                return Promise.resolve(rest)
             }
 
         });
     },
 
     // ~ Currently only returning the first menu
-    getMenus: function() {
+    getMenus: function(onlyFirstMenu) {
 
         return knex.select('*').from('menus')
         .then(function (rest){
-            if(rest.length > 0){
+            if(onlyFirstMenu){
                 return Promise.resolve(rest[0])
             } else {
-                return Promise.resolve(0)
+                return Promise.resolve(rest)
             }
         });
     },
@@ -77,7 +77,13 @@ module.exports = {
       .join('items', 'order_items.item_id', '=', 'items.id')
       .orderBy('order_id')
       .then(NestHydrationJS.nest)
+    },
 
+    getUsers: function() {
+        return knex.select( 'email','password','role')
+        .from('users').then(function(users){
+            return Promise.resolve(users);
+        })
     }
 
 }
