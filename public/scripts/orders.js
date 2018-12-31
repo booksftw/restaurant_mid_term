@@ -66,7 +66,7 @@ $jq(document).ready(() => {
   });
 
   // Order toggle
-  $jq('.order-head').click(function () {
+  $jq('.orders').on('click', 'div.order-head', function () {
     $jq(this).siblings().slideToggle('fast');
   });
 });
