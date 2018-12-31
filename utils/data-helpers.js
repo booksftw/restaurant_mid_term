@@ -74,8 +74,8 @@ module.exports = {
         'orders.restaurant_id as _restaurantId'
       ).from('orders').as('order')
       .join('order_items', 'orders.id', '=', 'order_id')
-      .join('items', 'order_items.item_id', '=', 'items.id')
-      .orderBy('order_id')
+      .join('items', 'items.id', '=', 'item_id')
+      .orderBy('orders.id')
       .then(NestHydrationJS.nest)
 
     }
