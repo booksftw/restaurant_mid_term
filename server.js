@@ -72,11 +72,9 @@ app.get('*' , (req,res,next) => {
   console.log ( url, 'URL' )
 
   /**
-   * ~ WHERE I'M LEAVING OFF. I NEED TO CREATE THE 404 page and link it to the login
-   * ~ MAYBE PASS A QUERY PARAM TO LOGIN PAGE AND DISPLAY A 404 ERROR MESSAGE
-   * ~Another improvement is to make the restr owner only able to visit his own restraunts
+   * 
+   * ~ Another improvement is to make the restr owner only able to visit his own restraunts
    */
-
   //* Guard URL by cookie role 
   if (role == 'customer') {
     // customer routes
@@ -90,9 +88,7 @@ app.get('*' , (req,res,next) => {
     url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
     // res.redirect('/login')
   }
-
   next()
-  // return res
 })
 
 /** 
@@ -139,7 +135,8 @@ app.post('/login', (req, res) => {
 
 app.get('/login', (req, res) => {
   const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
-  res.render('login', {error: hasError})
+  const has404   = req.query[404] ? req.query[404] : false
+  res.render('login', { error: hasError, msg_404: has404 })
 })
 
 /**
@@ -177,7 +174,7 @@ app.get('/', (req, res) => {
   res.end()
 })
 
-// Home page
+// Home page - Restaurant Listing
 app.get("/shop", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
@@ -191,6 +188,10 @@ app.get("/shop", (req, res) => {
     res.render("index", templateData);
   });
 });
+// Restaurant Menu
+app.get("/shop/:restaurant_id", (req, res) => {
+  
+})
 
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
