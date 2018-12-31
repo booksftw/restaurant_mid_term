@@ -25,7 +25,6 @@ const client = new twilio(accountSid, authToken);
 
 // * Cookie sessions
 const cookieSession = require('cookie-session')
-// ? bcrypt coming soon
 
 app.use(cookieSession({
   name: 'session',
@@ -34,9 +33,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
-
 const DataHelpers = require('./utils/data-helpers.js');
-
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -67,16 +64,11 @@ app.use("/api/users", usersRoutes(knex));
 /** 
  * ~ Custom Authentication 
  */
-
-
-//*
 function validateUser(req, res, username, password) {
 
   async function redirectToPageByRole(user) {
     const restaurants = await DataHelpers.getRestaurant(false);
-    console.log(restaurants, 'restrs')
     const {role} = user
-    console.log(role, 'role')
     role === 'customer' ? res.redirect('/') : null 
     role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and 
   }
@@ -110,23 +102,17 @@ function validateUser(req, res, username, password) {
 app.post('/login', (req, res) => {
   const username = req.body.username
   const password = req.body.password
-  
-  // Check valid user
-    // True: create cookie session
-    // False: redirect to login page with param to show error
-
-   validateUser(req ,res, username, password); // ? Pull this data from the database to validate atm just returning true
-  // res.end('end in post /login') // ? COMMENT OUT
+  validateUser(req ,res, username, password); // * Validates and Redirects
 })
 
+app.get('/login', (req, res) => {
+  const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
+  res.render('login', {error: hasError})
+})
 
-
-
-
-
-
-
-
+/**
+ * ~ Custom Route Guards
+ */
 app.use( function (req,res,next) {
   console.log('Time' , Date.now())
 
@@ -137,20 +123,6 @@ app.use( function (req,res,next) {
   userAuthenticated ? next() : res.send('login')
 })
 
-app.get('/login', (req, res) => {
-  const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
-  res.render('login', {error: hasError})
-})
-
-app.get('/test', (req, res) => {
-  res.send('IF YOU ARE A CUSTOMER ROLE YOU WILL SEE CUSTOMER PAGE. ELSE YOU ARE A RESTAURANT OWN AND WILL SEE THAT USER STORY');
-})
-
-
-
-/**
- * * End Custom Auth
- */
 
 /**
  *  ~ How to Get Data from DB?
@@ -159,16 +131,8 @@ app.get('/test', (req, res) => {
  *  Demo Page
  */
 app.get("/demo", (req, res) => {
-  console.log('hi')
-  console.log(req.query)
-
-  //
   // * Promise.all returns a single array with all the data.
   // * We can handle that array with the .then operator.
-  //
-  //
-
-
   let demoData = Promise.all(
     [
       DataHelpers.getRestaurant(true),
@@ -178,13 +142,11 @@ app.get("/demo", (req, res) => {
   ).then(
     (val) => {
       // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
-      // console.log(val[0], 'restraunt')
-
       const templateData = {
         restr: val[0],
         menus: val[1],
         items: val[2],
-        test: 'Merry Xmas'
+        test: 'Happy New Year'
       }
       res.render('get-data-sample', templateData);
     }
