@@ -23,6 +23,17 @@ const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from 
 const twilio = require('twilio');
 const client = new twilio(accountSid, authToken);
 
+// * Cookie sessions
+const cookieSession = require('cookie-session')
+// ? bcrypt coming soon
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
 
 const DataHelpers = require('./utils/data-helpers.js');
 
@@ -53,6 +64,66 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+/** 
+ * ~ Custom Authentication 
+ */
+
+function isUserValid(username, password) {
+  //check server and validate
+  // maybe check browser and validate
+  return true  /* returns Boolean */
+}
+function getUserRole(user) { /*returns customer or restaurant*/}
+
+
+app.use( function (req,res,next) {
+  console.log('Time' , Date.now())
+
+  // Validate User Cookie
+  const userAuthenticated = true;// isUserAuthenticated()
+  
+  // User not authenticated redirect to login/register page
+  userAuthenticated ? next() : res.send('login')
+})
+
+app.get('/login', (req, res) => {
+  const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
+  res.render('login', {error: hasError})
+})
+
+app.get('/test', (req, res) => {
+  res.send('IF YOU ARE A CUSTOMER ROLE YOU WILL SEE CUSTOMER PAGE. ELSE YOU ARE A RESTAURANT OWN AND WILL SEE THAT USER STORY');
+})
+
+// ! Users register by seeding for mvp
+app.post('/login', (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
+  
+  // Check valid user
+    // True: create cookie session
+    // False: redirect to login page with param to show error
+
+  const userIsValid = isUserValid(username,password); // ? Pull this data from the database to validate atm just returning true
+  if (userIsValid) {
+    // Create cookie session
+    req.session.user = {user:'nick', pass:'pass', role:'something'}
+    // Get user role
+    // redirect to appropiate page and Make sure the middleware is set for these guys. 
+    res.redirect('/test')
+  } else {
+    // redirect to login page with params to show error
+    const error = true;
+
+    res.redirect('/login?error=true')
+  }
+
+})
+
+/**
+ * * End Custom Auth
+ */
+
 /**
  *  ~ How to Get Data from DB?
  *  A sample playground for you.
@@ -60,11 +131,16 @@ app.use("/api/users", usersRoutes(knex));
  *  Demo Page
  */
 app.get("/demo", (req, res) => {
+  console.log('hi')
+  console.log(req.query)
+
   //
   // * Promise.all returns a single array with all the data.
   // * We can handle that array with the .then operator.
   //
   //
+
+
   let demoData = Promise.all(
     [
       // ! Restaurants and Menus returning only the first key
@@ -74,8 +150,8 @@ app.get("/demo", (req, res) => {
     ]
   ).then(
     (val) => {
-      // ? val[0] - restaurant, val[1] - menus, val[2] - items
-      console.log(val[0], 'restaurant')
+      // ? val[0] - restaurant, val[1] - menus, val[2] - dishes
+      // console.log(val[0], 'restraunt')
 
       const templateData = {
         restr: val[0],
@@ -93,7 +169,7 @@ app.get("/demo", (req, res) => {
 app.get("/", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
-    console.log(value, 'val')
+    // console.log(value, 'val')
 
     const restaurantData = value;
     const templateData = {
@@ -144,35 +220,3 @@ app.listen(PORT, () => {
 });
 
 
-/**
- * ~ Passport Authentication
- */
-
-// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
-
-var passport = require('passport')
-, LocalStrategy = require('passport-local').Strategy;
-
-// ? The passport configs are running on mongo
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) { return done(null, false); }
-//       if (!user.verifyPassword(password)) { return done(null, false); }
-//       return done(null, user);
-//     });
-//   }
-// ));
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    const user = {username:'nick',password:'password'}
-    return done(null, user)
-  }
-));
-
-app.post('/demo',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
