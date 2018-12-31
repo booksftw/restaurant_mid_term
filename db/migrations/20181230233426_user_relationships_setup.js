@@ -39,7 +39,6 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  // * Drop dependency for Restaurants and Orders
 
   const rebuild_restaurants_with_users_FK = knex.schema
     .createTable("restaurants", table => {
@@ -91,49 +90,37 @@ exports.down = function(knex, Promise) {
     })
     .return();
 
+    const rebuild_items = knex.schema.createTable("items", table => {
+      table.increments("id");
+      table.string("name").notNullable();
+      table.string("description");
+      table.string("image_url");
+      table.float("price").notNullable();
+    });
+
   const rebuild_menu_items = knex.schema
     .createTable("menu_items", table => {
       // Menu_items schema
-      table.integer("menu_id");
-      table
-        .foreign("menu_id")
-        .references("id")
-        .inTable("menus");
-      table.integer("item_id");
-      table
-        .foreign("item_id")
-        .references("id")
-        .inTable("items");
-      table.primary(["menu_id", "item_id"]);
+      table.increments('id')
+      table.integer('menu_id')
+      table.foreign('menu_id').references('id').inTable('menus');
+      table.integer('item_id')
+      table.foreign('item_id').references('id').inTable('items');
     })
     .return();
 
   const rebuild_line_items = knex.schema
     .createTable("order_items", table => {
       // line_items schema
-      table.increments("id");
-      table.integer("qty");
-      table.integer("order_id");
-      table
-        .foreign("order_id")
-        .references("id")
-        .inTable("orders");
-      table.integer("item_id");
-      table
-        .foreign("item_id")
-        .references("id")
-        .inTable("items");
-      table.primary(["order_id", "item_id"]);
+      table.increments('id')
+      table.integer('qty');
+      table.integer('order_id')
+      table.foreign('order_id').references('id').inTable('orders');
+      table.integer('item_id')
+      table.foreign('item_id').references('id').inTable('items');
     })
     .return();
 
-  const rebuild_items = knex.schema.createTable("items", table => {
-    table.increments("id");
-    table.string("name").notNullable();
-    table.string("description");
-    table.string("image_url");
-    table.float("price").notNullable();
-  });
 
   return Promise.all([
     rebuild_restaurants_with_users_FK,
@@ -141,6 +128,6 @@ exports.down = function(knex, Promise) {
     rebuild_menus,
     rebuild_menu_items,
     rebuild_line_items,
-    rebuild_items
+    rebuild_items,
   ]);
 };
