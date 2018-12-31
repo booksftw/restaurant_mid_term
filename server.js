@@ -30,7 +30,6 @@ const cookieSession = require('cookie-session')
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
- 
   // Cookie Options
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
@@ -65,7 +64,6 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
-
 /** 
  * ~ Custom Authentication 
  */
@@ -73,7 +71,6 @@ app.use("/api/users", usersRoutes(knex));
 function isUserValid(username, password) {
   //check server and validate
   // maybe check browser and validate
- 
   return true  /* returns Boolean */
 }
 function getUserRole(user) { /*returns customer or restaurant*/}
