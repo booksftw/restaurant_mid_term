@@ -61,16 +61,16 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
-/** 
- * ~ Custom Authentication 
+/**
+ * ~ Custom Authentication
  */
 function validateUser(req, res, username, password) {
 
   async function redirectToPageByRole(user) {
     const restaurants = await DataHelpers.getRestaurant(false);
     const {role} = user
-    role === 'customer' ? res.redirect('/') : null 
-    role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and 
+    role === 'customer' ? res.redirect('/') : null
+    role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and
   }
 
   //check server and validate
@@ -81,7 +81,7 @@ function validateUser(req, res, username, password) {
       req.session.user = {user:email, pass: password, role:role}
       redirectToPageByRole(user)
   }
-  
+
   function rejectUserAccess(){
     console.log('you ve been rejected')
     res.redirect('/login?error=true')
@@ -118,7 +118,7 @@ app.use( function (req,res,next) {
 
   // Validate User Cookie
   const userAuthenticated = true;// isUserAuthenticated()
-  
+
   // User not authenticated redirect to login/register page
   userAuthenticated ? next() : res.send('login')
 })
@@ -156,17 +156,30 @@ app.get("/demo", (req, res) => {
 
 // Home page
 app.get("/", (req, res) => {
-  let result = DataHelpers.getRestaurant();
-  result.then((value) => {
-    // console.log(value, 'val')
 
-    const restaurantData = value;
-    const templateData = {
-      restr: restaurantData
+  let demoData = Promise.all(
+    [
+      // ! Restaurants and Menus returning only the first key
+      DataHelpers.getRestaurant(),
+      DataHelpers.getMenus(),
+      DataHelpers.getDishes(),
+    ]
+  ).then(
+    (val) => {
+      console.log(val[0], 'restraunt')
+      console.log(val[1], 'menus')
+      console.log(val[2], 'dishes')
+
+      const templateData = {
+        restr: val[0],
+        menus: val[1],
+        dishes: val[2],
+      }
+      res.render('index', templateData);
+
     }
+  )
 
-    res.render("index", templateData);
-  });
 });
 
 // Orders page
@@ -208,4 +221,30 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
+
+/**
+ * ~ Passport Authentication
+ */
+
+// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
+
+var passport = require('passport')
+, LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+
+app.post('/demo',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
