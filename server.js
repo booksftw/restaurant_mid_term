@@ -217,16 +217,38 @@ app.get("/shop/:restaurant_id", (req, res) => {
 })
 
 // Orders page
+app.get("/orders", (req, res) => {
+  // Get orders data for this restaurant id and pass to template
+  let result = DataHelpers.getOrders();
+  result.then((value) => {
+    res.json(value);
+  });
+});
+
+app.post("/orders/:order_id/received", (req, res) => {
+  console.log('Received!', req.params.order_id);
+  DataHelpers.receiveOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/completed", (req, res) => {
+  DataHelpers.completeOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/closed", (req, res) => {
+  DataHelpers.closeOrder(req.params.order_id);
+});
+
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    console.log(value)
+    // console.log(value[0], value[1], value[2]);
     const orderData = value;
     const templateData = {
-      order: orderData
+      order: orderData,
+      restId: req.params.restaurant_id
     }
-
+    console.log(templateData.order[1].item)
     res.render("orders", templateData);
   });
 });
