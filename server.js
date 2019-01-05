@@ -64,32 +64,27 @@ app.use(express.static("public"));
 
 /**
  * ~ Custom Route Guards
+* Todo: Another improvement is to make the restr owner only able to visit his own restraunts
  */
-// app.get('*' , (req,res,next) => {
-//   console.log(req.cookies,'cookies', req.session, 'session', req.session.user)
-//   const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
-//   const url = req.url
-//   console.log ( url, 'URL' )
-
-//   /**
-//    * 
-//    * ~ Another improvement is to make the restr owner only able to visit his own restraunts
-//    */
-//   //* Guard URL by cookie role 
-//   if (role == 'customer') {
-//     // customer routes
-//     url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
-//   } else if (role == 'owner') {
-//     // owner routes
-//     url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
-//   } else if( !role ) {
-//     // No cookie and not on login already
-//     console.log('NULL role')
-//     url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
-//     // res.redirect('/login')
-//   }
-//   next()
-// })
+app.get('*' , (req,res,next) => {
+  const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
+  const url = req.url
+  
+  // * Guard URL by cookie role 
+  if (role == 'customer') {
+    // customer routes
+    url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
+  } else if (role == 'owner') {
+    // owner routes
+    url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
+  } else if( !role ) {
+    // No cookie and not on login already
+    console.log('NULL role')
+    url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
+    // res.redirect('/login')
+  }
+  next()
+})
 
 /** 
  * ~ Custom Authentication 
