@@ -62,6 +62,8 @@ app.use(express.static("public"));
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
 
 // TODO ~ UPDATE / ROUTE TO REDIRECT TO LOGIN
+// TODO ~ Add logout btn
+// TODO REDIRECT LOGGED IN USERS BY THEIR USER STORY OR 404
 
 
 
@@ -258,30 +260,4 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-
-/**
- * ~ Passport Authentication
- */
-
-// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
-
-var passport = require('passport')
-, LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-app.post('/demo',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
 
