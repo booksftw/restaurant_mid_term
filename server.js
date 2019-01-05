@@ -61,6 +61,9 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
 
+// TODO ~ UPDATE / ROUTE TO REDIRECT TO LOGIN
+
+
 
 /**
  * ~ Custom Route Guards
