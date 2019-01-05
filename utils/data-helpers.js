@@ -15,7 +15,7 @@ const knex = require('knex')({
   }
 });
 
-var NestHydrationJS = require('nesthydrationjs')();
+const NestHydrationJS = require('nesthydrationjs')();
 
 
 // Defines helper functions for saving and getting tweets, using the database `db`
@@ -63,9 +63,9 @@ module.exports = {
         'orders.id as _id',
         'orders.name as _name',
         'orders.phone as _phone',
-        'items.id as _item_id',
-        'items.name as _item_name',
-        'order_items.qty as _item_qty',
+        'items.name as _item__name',
+        'order_items.qty as _item__qty',
+        'items.id as _item_id__NUMBER',
         'orders.notes as _notes',
         'orders.created_at as _createdAt',
         'orders.received_at as _receivedAt',
@@ -74,16 +74,35 @@ module.exports = {
         'orders.restaurant_id as _restaurantId'
       ).from('orders').as('order')
       .join('order_items', 'orders.id', '=', 'order_id')
-      .join('items', 'order_items.item_id', '=', 'items.id')
-      .orderBy('order_id')
+      .join('items', 'items.id', '=', 'item_id')
+      .orderBy('orders.id')
       .then(NestHydrationJS.nest)
     },
+
 
     getUsers: function() {
         return knex.select( 'email','password','role')
         .from('users').then(function(users){
             return Promise.resolve(users);
         })
+
+    },
+
+    receiveOrder: function (orderId) {
+      console.log('Got', orderId);
+      // console.log(knex.fn.now());
+      console.log(knex('orders').where('id', '=', orderId));
+      return knex('orders').where('id', '=', orderId).update('received_at', knex.fn.now());
+      // return knex.raw(`UPDATE orders SET received_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+    },
+
+    completeOrder: function (orderId) {
+      knex.raw(`UPDATE orders SET completed_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+    },
+
+    closeOrder: function (orderId) {
+      knex.raw(`UPDATE orders SET pickup_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+
     }
 
 }
