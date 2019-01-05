@@ -176,6 +176,18 @@ app.get('/', (req, res) => {
 
 // Home page - Restaurant Listing
 app.get("/shop", (req, res) => {
+
+  (async function(){
+
+    const shops = await DataHelpers.getRestaurant(false)
+    
+    const templateVars = { restrs: shops }
+    res.render('shop_listing', templateVars)
+  })()
+});
+
+// Restaurant Menu
+app.get("/shop/:restaurant_id", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
     // console.log(value, 'val')
@@ -187,10 +199,6 @@ app.get("/shop", (req, res) => {
 
     res.render("index", templateData);
   });
-});
-// Restaurant Menu
-app.get("/shop/:restaurant_id", (req, res) => {
-  
 })
 
 // Orders page
