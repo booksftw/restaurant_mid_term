@@ -48,9 +48,9 @@ $jq(document).ready(() => {
     `);
 
     $orderButtons.append(`
-      <form>
-        <input type="button" class="btn btn-primary btn-sm btn-round confirm-order" value="Confirm" />
-        <input type="button" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
+      <form id="${order.id}" class="update-order">
+        <input type="button" type="submit" class="btn btn-primary btn-sm btn-round confirm-order" value="Confirm" />
+        <input type="button" type="submit" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
       </form>
     `);
 
@@ -63,6 +63,21 @@ $jq(document).ready(() => {
 
   $jq.getJSON('/orders', (data) => {
     renderOrders(data);
+  });
+
+  $jq('.new-orders').on('click', '.confirm-order', function () {
+    console.log($jq(this).parent().attr('id'));
+    const $confirmOrder = $jq.post(`/orders/${$jq(this).parent().attr('id')}/received`);
+
+    $confirmOrder.done((data) => {
+      $jq.getJSON(`/orders/${$jq(this).parent().attr('id')}/received}`, (data) => {
+        $jq('.new-orders').empty();
+        $jq('.in-progress-orders').empty();
+        $jq('.completed-orders').empty();
+        console.log('Refresh!');
+        renderOrders(data);
+      });
+    })
   });
 
   // Order toggle

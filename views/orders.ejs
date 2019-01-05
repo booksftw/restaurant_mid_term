@@ -31,60 +31,66 @@
     </nav>
     <div class="container orders">
       <div class="row">
-        <div class="col-4 border-left text-center new-orders">
+        <div class="col-4 border-left text-center">
           <h2>New</h2>
+          <div class="new-orders">
+          </div>
         </div>
-        <div class="col-4 border-left text-center in-progress-orders">
+        <div class="col-4 border-left text-center">
           <h2>In Progress</h2>
-          <div class="order">
-            <div class="order-head order-contact">
-              <span><%= order[1].id %></span>
-              <span><%= order[1].name %></span>
-              <span><%= order[1].phone %></span>
-            </div>
-            <div class="order-details">
-              <div class="order-items">
-                <ul>
-                  <li><%= order[1].item[0].qty %> x <%= order[1].item[0].name %></li>
-                  <li><%= order[1].item[1].qty %> x <%= order[1].item[1].name %></li>
-                  <li><%= order[1].item[2].qty %> x <%= order[1].item[2].name %></li>
-                </ul>
-                <p>
-                  <span>Comments:</span><br />
-                  <%= order[1].notes %>
-                </p>
+          <div class="in-progress-orders">
+            <div class="order">
+              <div class="order-head order-contact">
+                <span><%= order[1].id %></span>
+                <span><%= order[1].name %></span>
+                <span><%= order[1].phone %></span>
               </div>
-              <form class="order-buttons">
-                <input type="button" class="btn btn-primary btn-sm btn-round complete-order" value="Complete" />
-                <input type="button" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
-              </form>
+              <div class="order-details">
+                <div class="order-items">
+                  <ul>
+                    <li><%= order[1].item[0].qty %> x <%= order[1].item[0].name %></li>
+                    <li><%= order[1].item[1].qty %> x <%= order[1].item[1].name %></li>
+                    <li><%= order[1].item[2].qty %> x <%= order[1].item[2].name %></li>
+                  </ul>
+                  <p>
+                    <span>Comments:</span><br />
+                    <%= order[1].notes %>
+                  </p>
+                </div>
+                <form class="order-buttons">
+                  <input type="button" class="btn btn-primary btn-sm btn-round complete-order" value="Complete" />
+                  <input type="button" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
+                </form>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-4 border-left border-right text-center completed-orders">
           <h2>Ready for Pickup</h2>
-          <div class="order">
-            <div class="order-head order-contact">
-              <span><%= order[2].id %></span>
-              <span><%= order[2].name %></span>
-              <span><%= order[2].phone %></span>
-            </div>
-            <div class="order-details">
-              <div class="order-items">
-                <ul>
-                  <li><%= order[2].item[0].qty %> x <%= order[2].item[0].name %></li>
-                  <li><%= order[2].item[1].qty %> x <%= order[2].item[1].name %></li>
-                  <li><%= order[2].item[2].qty %> x <%= order[2].item[2].name %></li>
-                </ul>
-                <p>
-                  <span>Comments:</span><br />
-                  <%= order[2].notes %>
-                </p>
+          <div class="completed-orders">
+            <div class="order">
+              <div class="order-head order-contact">
+                <span><%= order[2].id %></span>
+                <span><%= order[2].name %></span>
+                <span><%= order[2].phone %></span>
               </div>
-              <form class="order-buttons">
-                <input type="button" class="btn btn-primary btn-sm btn-round pickup-order" value="Confirm" />
-                <input type="button" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
-              </form>
+              <div class="order-details">
+                <div class="order-items">
+                  <ul>
+                    <li><%= order[2].item[0].qty %> x <%= order[2].item[0].name %></li>
+                    <li><%= order[2].item[1].qty %> x <%= order[2].item[1].name %></li>
+                    <li><%= order[2].item[2].qty %> x <%= order[2].item[2].name %></li>
+                  </ul>
+                  <p>
+                    <span>Comments:</span><br />
+                    <%= order[2].notes %>
+                  </p>
+                </div>
+                <form class="order-buttons">
+                  <input type="button" class="btn btn-primary btn-sm btn-round pickup-order" value="Confirm" />
+                  <input type="button" class="btn btn-danger btn-sm btn-round cancel-order" value="Cancel" />
+                </form>
+              </div>
             </div>
           </div>
         </div>

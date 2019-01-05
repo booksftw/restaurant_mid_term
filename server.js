@@ -113,6 +113,19 @@ app.get("/orders", (req, res) => {
   });
 });
 
+app.post("/orders/:order_id/received", (req, res) => {
+  console.log('Received!', req.params.order_id);
+  DataHelpers.receiveOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/completed", (req, res) => {
+  DataHelpers.completeOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/closed", (req, res) => {
+  DataHelpers.closeOrder(req.params.order_id);
+});
+
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
@@ -123,6 +136,7 @@ app.get("/orders/:restaurant_id", (req, res) => {
       order: orderData,
       restId: req.params.restaurant_id
     }
+    console.log(templateData.order[1].item)
     res.render("orders", templateData);
   });
 });

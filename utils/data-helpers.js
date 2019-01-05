@@ -15,7 +15,7 @@ const knex = require('knex')({
   }
 });
 
-var NestHydrationJS = require('nesthydrationjs')();
+const NestHydrationJS = require('nesthydrationjs')();
 
 
 // Defines helper functions for saving and getting tweets, using the database `db`
@@ -78,6 +78,22 @@ module.exports = {
       .orderBy('orders.id')
       .then(NestHydrationJS.nest)
 
+    },
+
+    receiveOrder: function (orderId) {
+      console.log('Got', orderId);
+      // console.log(knex.fn.now());
+      console.log(knex('orders').where('id', '=', orderId));
+      return knex('orders').where('id', '=', orderId).update('received_at', knex.fn.now());
+      // return knex.raw(`UPDATE orders SET received_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+    },
+
+    completeOrder: function (orderId) {
+      knex.raw(`UPDATE orders SET completed_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+    },
+
+    closeOrder: function (orderId) {
+      knex.raw(`UPDATE orders SET pickup_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
     }
 
 }
