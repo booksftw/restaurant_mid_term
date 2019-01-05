@@ -59,7 +59,32 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+// app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
+
+
+/**
+ * ~ Custom Route Guards
+* Todo: Another improvement is to make the restr owner only able to visit his own restraunts
+ */
+app.get('*' , (req,res,next) => {
+  const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
+  const url = req.url
+
+  // * Guard URL by cookie role
+  if (role == 'customer') {
+    // customer routes
+    url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
+  } else if (role == 'owner') {
+    // owner routes
+    url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
+  } else if( !role ) {
+    // No cookie and not on login already
+    console.log('NULL role')
+    url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
+    // res.redirect('/login')
+  }
+  next()
+})
 
 /**
  * ~ Custom Authentication
@@ -69,8 +94,10 @@ function validateUser(req, res, username, password) {
   async function redirectToPageByRole(user) {
     const restaurants = await DataHelpers.getRestaurant(false);
     const {role} = user
-    role === 'customer' ? res.redirect('/') : null
+
+    role === 'customer' ? res.redirect('/shop') : null
     role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and
+
   }
 
   //check server and validate
@@ -78,7 +105,7 @@ function validateUser(req, res, username, password) {
     console.log('granting you access')
       // Create cookie session
       const {email, password, role} = user
-      req.session.user = {user:email, pass: password, role:role}
+      req.session.user = {email:email, pass: password, role:role}
       redirectToPageByRole(user)
   }
 
@@ -97,8 +124,6 @@ function validateUser(req, res, username, password) {
 
 }
 
-
-// *
 app.post('/login', (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -107,22 +132,9 @@ app.post('/login', (req, res) => {
 
 app.get('/login', (req, res) => {
   const hasError = req.query.error ? req.query.error : false // ex: /login?error=true
-  res.render('login', {error: hasError})
+  const has404   = req.query[404] ? req.query[404] : false
+  res.render('login', { error: hasError, msg_404: has404 })
 })
-
-/**
- * ~ Custom Route Guards
- */
-app.use( function (req,res,next) {
-  console.log('Time' , Date.now())
-
-  // Validate User Cookie
-  const userAuthenticated = true;// isUserAuthenticated()
-
-  // User not authenticated redirect to login/register page
-  userAuthenticated ? next() : res.send('login')
-})
-
 
 /**
  *  ~ How to Get Data from DB?
@@ -154,8 +166,28 @@ app.get("/demo", (req, res) => {
 
 });
 
-// Home page
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
+  res.send('I updated this route to /shop to support authentication and user stories based on their acess rights.  -NZ')
+  res.end()
+})
+
+// Home page - Restaurant Listing
+app.get("/shop", (req, res) => {
+
+  (async function(){
+
+    const shops = await DataHelpers.getRestaurant(false)
+    console.log('restr data', shops)
+    const templateVars = { restrs: shops }
+    res.render('shop_listing', templateVars)
+  })()
+});
+
+// Restaurant Menu
+app.get("/shop/:restaurant_id", (req, res) => {
+  let result = DataHelpers.getRestaurant();
+  result.then((value) => {
+    console.log(value, 'val')
 
   let demoData = Promise.all(
     [
@@ -180,7 +212,9 @@ app.get("/", (req, res) => {
     }
   )
 
-});
+    res.render("index", templateData);
+  });
+})
 
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
