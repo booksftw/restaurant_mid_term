@@ -72,8 +72,8 @@ app.use(express.static("public"));
 app.get('*' , (req,res,next) => {
   const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
   const url = req.url
-  
-  // * Guard URL by cookie role 
+
+  // * Guard URL by cookie role
   if (role == 'customer') {
     // customer routes
     url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
@@ -89,16 +89,18 @@ app.get('*' , (req,res,next) => {
   next()
 })
 
-/** 
- * ~ Custom Authentication 
+/**
+ * ~ Custom Authentication
  */
 function validateUser(req, res, username, password) {
 
   async function redirectToPageByRole(user) {
     const restaurants = await DataHelpers.getRestaurant(false);
     const {role} = user
-    role === 'customer' ? res.redirect('/shop') : null 
-    role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and 
+
+    role === 'customer' ? res.redirect('/shop') : null
+    role === 'owner'    ? res.redirect('/orders/1') : null // * Make it get the first restaurant owner id later and
+
   }
 
   //check server and validate
@@ -109,7 +111,7 @@ function validateUser(req, res, username, password) {
       req.session.user = {email:email, pass: password, role:role}
       redirectToPageByRole(user)
   }
-  
+
   function rejectUserAccess(){
     console.log('you ve been rejected')
     res.redirect('/login?error=true')
@@ -190,10 +192,28 @@ app.get("/shop/:restaurant_id", (req, res) => {
   result.then((value) => {
     console.log(value, 'val')
 
-    const restaurantData = value;
-    const templateData = {
-      restr: restaurantData
+  let demoData = Promise.all(
+    [
+      // ! Restaurants and Menus returning only the first key
+      DataHelpers.getRestaurant(),
+      DataHelpers.getMenus(),
+      DataHelpers.getItems(),
+    ]
+  ).then(
+    (val) => {
+      console.log(val[0], 'restraunt')
+      console.log(val[1], 'menus')
+      console.log(val[2], 'dishes')
+
+      const templateData = {
+        restr: val[0],
+        menus: val[1],
+        dishes: val[2],
+      }
+      res.render('index', templateData);
+
     }
+  )
 
     res.render("index", templateData);
   });
@@ -238,4 +258,30 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
+
+/**
+ * ~ Passport Authentication
+ */
+
+// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
+
+var passport = require('passport')
+, LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+
+app.post('/demo',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
