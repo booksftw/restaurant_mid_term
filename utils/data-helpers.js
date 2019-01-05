@@ -47,7 +47,7 @@ module.exports = {
         });
     },
 
-    getitems: function() {
+    getItems: function() {
         return knex.select('*').from('items')
         .then(function (rest){
             if(rest.length > 0){

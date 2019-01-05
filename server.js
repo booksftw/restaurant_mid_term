@@ -194,7 +194,7 @@ app.get("/shop/:restaurant_id", (req, res) => {
       // ! Restaurants and Menus returning only the first key
       DataHelpers.getRestaurant(),
       DataHelpers.getMenus(),
-      DataHelpers.getDishes(),
+      DataHelpers.getItems(),
     ]
   ).then(
     (val) => {
