@@ -65,31 +65,31 @@ app.use(express.static("public"));
 /**
  * ~ Custom Route Guards
  */
-app.get('*' , (req,res,next) => {
-  console.log(req.cookies,'cookies', req.session, 'session', req.session.user)
-  const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
-  const url = req.url
-  console.log ( url, 'URL' )
+// app.get('*' , (req,res,next) => {
+//   console.log(req.cookies,'cookies', req.session, 'session', req.session.user)
+//   const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
+//   const url = req.url
+//   console.log ( url, 'URL' )
 
-  /**
-   * 
-   * ~ Another improvement is to make the restr owner only able to visit his own restraunts
-   */
-  //* Guard URL by cookie role 
-  if (role == 'customer') {
-    // customer routes
-    url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
-  } else if (role == 'owner') {
-    // owner routes
-    url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
-  } else if( !role ) {
-    // No cookie and not on login already
-    console.log('NULL role')
-    url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
-    // res.redirect('/login')
-  }
-  next()
-})
+//   /**
+//    * 
+//    * ~ Another improvement is to make the restr owner only able to visit his own restraunts
+//    */
+//   //* Guard URL by cookie role 
+//   if (role == 'customer') {
+//     // customer routes
+//     url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
+//   } else if (role == 'owner') {
+//     // owner routes
+//     url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
+//   } else if( !role ) {
+//     // No cookie and not on login already
+//     console.log('NULL role')
+//     url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
+//     // res.redirect('/login')
+//   }
+//   next()
+// })
 
 /** 
  * ~ Custom Authentication 
@@ -180,7 +180,7 @@ app.get("/shop", (req, res) => {
   (async function(){
 
     const shops = await DataHelpers.getRestaurant(false)
-    
+    console.log('restr data', shops)
     const templateVars = { restrs: shops }
     res.render('shop_listing', templateVars)
   })()
@@ -190,7 +190,7 @@ app.get("/shop", (req, res) => {
 app.get("/shop/:restaurant_id", (req, res) => {
   let result = DataHelpers.getRestaurant();
   result.then((value) => {
-    // console.log(value, 'val')
+    console.log(value, 'val')
 
     const restaurantData = value;
     const templateData = {

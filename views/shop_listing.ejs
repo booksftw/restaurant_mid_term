@@ -1,22 +1,48 @@
-<h1>Shop Listing Page</h1>
-<header>
-    <nav>NAV BAR</nav>
-</header>
-<div class="banner">
-    <h1>Greeting msg</h1>
-</div>
-<div class="container">
-    <div class="restaurant">
-        <p>SHOP NAME</p>
-        <p>SHOP IMG WITH LINK</p>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/navbar.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/orders.css" type="text/css" />
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+
+    <title>Shop Listings</title>
+  </head>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nickShopPageHotFixNav">
+    <div class="navbar-nav">
+        <h1 class="text-light">Lighthouse Eats</h1>
     </div>
-</div>
+  </nav>
+
+
 
 <!-- ADD RESTR AS LIST ITEM IN CONTAINER-->
-<ul>
-    <li></li>
-</ul>
 
-<% restrs.forEach( (restr) => { %>
-    <%= restr.name %>
-<% } ) %>
+
+
+<body class ='bg-light'>
+    <div class="container bg-white">
+        <div class="alert alert-primary mt-4" role="alert">
+            Check out our new restaurants!
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <ul>
+                <% restrs.forEach( (restr) => { %>
+                    <li>
+                        <a href='shop/<%= restr.id %>' ><%= restr.name %></a>
+                        <img style='width: 25%;height:10%' src="<%= restr.logo_url %>" alt=""> <!-- HOT FIX INLINE STYLE-->
+                    </li>
+                <% } ) %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
