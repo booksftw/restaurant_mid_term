@@ -58,9 +58,6 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
-// Mount all resource routes
-// app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
-
 /**
  * ~ Custom Route Guards
 * Todo: Another improvement is to make the restr owner only able to visit his own restraunts
@@ -72,10 +69,10 @@ app.get('*' , (req,res,next) => {
   // * Guard URL by cookie role
   if (role == 'customer') {
     // customer routes
-    url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
+    url.includes('shop') || url =='/' || url.includes('/login') || url.includes('checkout_success')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
   } else if (role == 'owner') {
     // owner routes
-    url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
+    url.includes('orders') || url == '/' || url.includes('login') || url.includes('checkout_success') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
   } else if( !role ) {
     // No cookie and not on login already
     console.log('NULL role')
@@ -84,6 +81,50 @@ app.get('*' , (req,res,next) => {
   }
   next()
 })
+
+
+//~ SMS
+app.use('/shop/:restaurant_id/checkout_success', (req, res,next ) => {
+  const twilioNumber = '+17784004460';
+  // const restaurantNumber= '+12504155392';
+  // const customerNumber  = '+12504155392';
+  const restaurantNumber= '+14038914711';
+  const customerNumber  = '+17788341698';
+  const rest_id   = req.params.restaurant_id
+  console.log('SENDING TEXT')
+
+
+  // * Text customer
+  client.messages.create({
+    body: `We received your order successfully, estimated time: 30minutes`,
+    to: customerNumber,  // Text this number
+    from: twilioNumber// From a valid Twilio number
+  })
+  .then(
+    (message) => {
+      console.log(message.sid) 
+    }
+  );
+
+  // * Text owner
+  client.messages.create({
+    body: `You have a new order http://localhost:8080/orders/${rest_id}`,
+    to: restaurantNumber,  // Text this number
+    from: twilioNumber// From a valid Twilio number
+  })
+  .then(
+    (message) => {
+      console.log(message.sid) 
+    }
+  );
+
+  next()
+})  
+
+// Mount all resource routes
+// app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
+
+
 
 /**
  * ~ Custom Authentication
@@ -260,35 +301,17 @@ app.get("/orders/:restaurant_id", (req, res) => {
 
 
 
-//~ Restaurant Owner Text
-app.use('/orders/:restaurant_id/order-received', (req, res) => {
-  // * Restaurant received order via SMS
-  const twilioNumber = '+17784004460';
-  const restaurantNumber     = '+12504155392';
-  const rest_id   = req.params.restaurant_id
-  console.log(rest_id, 'rest_id')
-  client.messages.create({
-    body: `You have a new order http://localhost:8080/orders/${rest_id}`,
-    to: restaurantNumber,  // Text this number
-    from: twilioNumber// From a valid Twilio number
-  })
-  .then(
-    (message) => {
-      console.log(message.sid) 
-      res.redirect('checkout_success')
-    }
-  );
-})
-
-// ~ Customer text
-app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
-  // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
-  const defaultDeliveryTime = 35
 
 
-  // Maybe an algorithm that decides how long it will take
-  // Sends txt to client with estimate time
-})
+// // ~ Customer text
+// app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
+//   // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
+//   const defaultDeliveryTime = 35
+
+
+//   // Maybe an algorithm that decides how long it will take
+//   // Sends txt to client with estimate time
+// })
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
