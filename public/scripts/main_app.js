@@ -53,15 +53,7 @@ $(document).ready(() => {
 
   
   $('.checkout').on('click', function(e){
-    
-    // Get Data and pass to next endpoint
-    // ~ GET THE DATA ATTR ID AND PASS INTO THE GET REQUEST AND MAKE SURE IT GOES THROUGH MIDDLE WARE AND REDIRECTS TO CHECKOUT SUCCESS
     var restrId = $(this).attr('data-restr-id')
-    console.log(restrId, 'restr id from script')
-
-    //Redirect
-    //'/orders/:restaurant_id/order-received'
-    // $.get(`/orders/:restaurant_id/order-received${restrId}`)
     window.location.href = `/shop/${restrId}/checkout_success`;
   })
 

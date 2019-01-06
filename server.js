@@ -60,7 +60,7 @@ app.use(express.static("public"));
 
 /**
  * ~ Custom Route Guards
-* Todo: Another improvement is to make the restr owner only able to visit his own restraunts
+ * Todo: Another improvement is to make the restr owner only able to visit his own restraunts
  */
 app.get('*' , (req,res,next) => {
   const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
@@ -81,7 +81,6 @@ app.get('*' , (req,res,next) => {
   }
   next()
 })
-
 
 //~ SMS
 app.use('/shop/:restaurant_id/checkout_success', (req, res,next ) => {
@@ -120,11 +119,8 @@ app.use('/shop/:restaurant_id/checkout_success', (req, res,next ) => {
 
   next()
 })  
-
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
-
-
 
 /**
  * ~ Custom Authentication
@@ -298,20 +294,6 @@ app.get("/orders/:restaurant_id", (req, res) => {
     res.render("orders", templateData);
   });
 });
-
-
-
-
-
-// // ~ Customer text
-// app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
-//   // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
-//   const defaultDeliveryTime = 35
-
-
-//   // Maybe an algorithm that decides how long it will take
-//   // Sends txt to client with estimate time
-// })
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
