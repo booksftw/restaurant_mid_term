@@ -177,7 +177,7 @@ app.get("/shop", (req, res) => {
   (async function(){
 
     const shops = await DataHelpers.getRestaurant(false)
-    console.log('restr data', shops)
+    // console.log('restr data', shops)
     const templateVars = { restrs: shops }
     res.render('shop_listing', templateVars)
   })()
@@ -185,9 +185,15 @@ app.get("/shop", (req, res) => {
 
 // Restaurant Menu
 app.get("/shop/:restaurant_id", (req, res) => {
+  const rest_id = req.params.restaurant_id;
   let result = DataHelpers.getRestaurant();
+
+
+
+
+
   result.then((value) => {
-    console.log(value, 'val')
+    // console.log(value, 'val')
 
   let demoData = Promise.all(
     [
@@ -198,12 +204,18 @@ app.get("/shop/:restaurant_id", (req, res) => {
     ]
   ).then(
     (val) => {
-      console.log(val[0], 'restraunt')
-      console.log(val[1], 'menus')
-      console.log(val[2], 'dishes')
+      const allRestaurants = val[0]
+      // console.log(val[0], 'restraunt')
+      // console.log(val[1], 'menus')
+      // console.log(val[2], 'dishes')
+
+      const currRestr = allRestaurants.filter( (restr) => {
+        return restr.id == rest_id
+      })
+      console.log(currRestr, 'currRestr')
 
       const templateData = {
-        restr: val[0],
+        restr: currRestr[0],
         menus: val[1],
         dishes: val[2],
       }
@@ -212,16 +224,16 @@ app.get("/shop/:restaurant_id", (req, res) => {
     }
   )
 
-    res.render("index", templateData);
+
   });
-})
+});
 
 // Orders page
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    console.log(value)
+    // console.log(value)
     const orderData = value;
     const templateData = {
       order: orderData

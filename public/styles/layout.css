@@ -9,6 +9,7 @@ body h1 {
 body {
   background-color: #dddddd;
   background-size: cover;
+  height: 100%;
 }
 
 button {
@@ -72,8 +73,9 @@ button {
   box-shadow: -10px 5px 5px #ccc;
   position: fixed;
   right: 10%;
-  height: 100%;
+  height: 85%;
   background: white;
+  overflow-y: scroll;
 }
 
 .cart p {
