@@ -193,13 +193,8 @@ app.get("/shop/:restaurant_id", (req, res) => {
   const rest_id = req.params.restaurant_id;
   let result = DataHelpers.getRestaurant();
 
-
-
-
-
   result.then((value) => {
     // console.log(value, 'val')
-
   let demoData = Promise.all(
     [
       // ! Restaurants and Menus returning only the first key
@@ -213,6 +208,8 @@ app.get("/shop/:restaurant_id", (req, res) => {
       // console.log(val[0], 'restraunt')
       // console.log(val[1], 'menus')
       // console.log(val[2], 'dishes')
+
+      console.log(rest_id, 'rest_id', typeof(rest_id) )
 
       const currRestr = allRestaurants.filter( (restr) => {
         return restr.id == rest_id

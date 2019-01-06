@@ -37,7 +37,7 @@
                 <ul>
                 <% restrs.forEach( (restr) => { %>
                     <li>
-                        <a href='shop/<%= restr.id %>' ><%= restr.name %></a>
+                        <a href='/shop/<%= restr.id %>' ><%= restr.name %></a>
                         <img style='width: 25%;height:10%' src="<%= restr.logo_url %>" alt=""> <!-- HOT FIX INLINE STYLE-->
                     </li>
                 <% } ) %>
