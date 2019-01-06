@@ -290,11 +290,45 @@ app.get("/orders/:restaurant_id", (req, res) => {
       order: orderData,
       restId: req.params.restaurant_id
     }
-    console.log(templateData.order[1].item)
     res.render("orders", templateData);
   });
 });
 
+<<<<<<< HEAD
+=======
+
+
+//~ Restaurant Owner Text
+app.use('/orders/:restaurant_id/order-received', (req, res) => {
+  // * Restaurant received order via SMS
+  const twilioNumber = '+17784004460';
+  const restaurantNumber     = '+12504155392';
+  const rest_id   = req.params.restaurant_id
+  console.log(rest_id, 'rest_id')
+  client.messages.create({
+    body: `You have a new order http://localhost:8080/orders/${rest_id}`,
+    to: restaurantNumber,  // Text this number
+    from: twilioNumber// From a valid Twilio number
+  })
+  .then(
+    (message) => {
+      console.log(message.sid)
+      res.redirect('checkout_success')
+    }
+  );
+})
+
+// ~ Customer text
+app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
+  // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
+  const defaultDeliveryTime = 35
+
+
+  // Maybe an algorithm that decides how long it will take
+  // Sends txt to client with estimate time
+})
+
+>>>>>>> bug/order-item-qty
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
