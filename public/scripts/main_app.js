@@ -8,6 +8,11 @@ $(document).ready(() => {
 
 
   $('.cart').on('click', '.remove', function(item){
+    const removedItem = Number($(this).parent().parent().find('.cart-item-price')[0].innerHTML);
+
+    $('.sub')[0].innerHTML = (Number($('.sub')[0].innerHTML) - removedItem).toFixed(2);
+    $('.tax')[0].innerHTML = (Number($('.sub')[0].innerHTML) * 0.05).toFixed(2);
+    $('.tot')[0].innerHTML = (Number($('.sub')[0].innerHTML) + Number($('.tax')[0].innerHTML)).toFixed(2);
     $(this).parent().parent().parent().remove();
   });
 
@@ -25,7 +30,7 @@ $(document).ready(() => {
 
       <div class="menu-text">
         <p><em>${menuName}</em><span class="remove"><i class="fas fa-minus-circle"></i></span></p>
-        <p>$ ${Number(menuPrice)}</p>
+        <p>$ <span class='cart-item-price'>${Number(menuPrice)}</span></p>
       </div>
       `);
 
