@@ -240,7 +240,6 @@ app.get("/orders", (req, res) => {
 });
 
 app.post("/orders/:order_id/received", (req, res) => {
-  console.log('Received!', req.params.order_id);
   DataHelpers.receiveOrder(req.params.order_id);
 });
 
@@ -256,7 +255,6 @@ app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-
     const orderData = value;
     const templateData = {
       order: orderData,
@@ -290,5 +288,3 @@ app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-
-
