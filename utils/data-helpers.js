@@ -89,21 +89,15 @@ module.exports = {
     },
 
     receiveOrder: function (orderId) {
-      console.log('Got', orderId);
-      // console.log(knex.fn.now());
-      console.log(knex('orders').where('id', '=', orderId));
-
-      return knex('orders').where('id', '=', orderId).update( {'received_at':  knex.fn.now() } ).then( () => {} ).return(); //~ TEST THIS
-      // return knex.raw(`UPDATE orders SET received_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+      return knex('orders').where('id', '=', orderId).update( {'received_at':  knex.fn.now() } ).then( () => {} ).return();
     },
 
     completeOrder: function (orderId) {
-      knex.raw(`UPDATE orders SET completed_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
+      return knex('orders').where('id', '=', orderId).update( {'completed_at':  knex.fn.now() } ).then( () => {} ).return();
     },
 
     closeOrder: function (orderId) {
-      knex.raw(`UPDATE orders SET pickup_at = CURRENT_TIMESTAMP WHERE id = ${orderId}`);
-
+      return knex('orders').where('id', '=', orderId).update( {'pickup_at':  knex.fn.now() } ).then( () => {} ).return();
     }
 
 }
