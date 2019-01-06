@@ -63,18 +63,18 @@ module.exports = {
         'orders.id as _id',
         'orders.name as _name',
         'orders.phone as _phone',
-        'items.name as _item__name',
-        'order_items.qty as _item__qty___NUMBER',
-        'items.id as _item_id___ID___NUMBER',
         'orders.notes as _notes',
         'orders.created_at as _createdAt',
         'orders.received_at as _receivedAt',
         'orders.completed_at as _completedAt',
         'orders.pickup_at as _pickupAt',
-        'orders.restaurant_id as _restaurantId'
+        'orders.restaurant_id as _restaurantId',
+        'order_items.id as _item__id',
+        'items.name as _item__name',
+        'order_items.qty as _item__qty',
       ).from('orders').as('order')
-      .join('order_items', 'orders.id', '=', 'order_id')
-      .join('items', 'items.id', '=', 'item_id')
+      .join('order_items', 'orders.id', '=', 'order_items.order_id')
+      .join('items', 'items.id', '=', 'order_items.item_id')
       .orderBy('orders.id')
       .then(NestHydrationJS.nest)
     },

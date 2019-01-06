@@ -253,7 +253,6 @@ app.get("/orders/:restaurant_id", (req, res) => {
       order: orderData,
       restId: req.params.restaurant_id
     }
-    console.log(templateData.order[1].item)
     res.render("orders", templateData);
   });
 });
@@ -274,7 +273,7 @@ app.use('/orders/:restaurant_id/order-received', (req, res) => {
   })
   .then(
     (message) => {
-      console.log(message.sid) 
+      console.log(message.sid)
       res.redirect('checkout_success')
     }
   );
