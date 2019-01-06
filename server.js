@@ -232,7 +232,6 @@ app.get("/shop/:restaurant_id", (req, res) => {
     ]
   )
   return demoData.then((val) => {
-      // console.log(JSON.stringify(val, null, 2))
       let restr,menus,dishes;
       [restr,menus,dishes] = val;
       const templateData = {
@@ -247,7 +246,7 @@ app.get("/shop/:restaurant_id", (req, res) => {
 
 app.get('/shop/:restaurant_id/checkout_success', (req, res) => {
   res.render("checkout-success")
-})
+});
 
 // Orders page
 app.get("/orders", (req, res) => {
@@ -258,16 +257,24 @@ app.get("/orders", (req, res) => {
   });
 });
 
+app.post('/orders', (req, res) => {
+  DataHelpers.newOrder(req.body);
+  
+});
+
 app.post("/orders/:order_id/received", (req, res) => {
   DataHelpers.receiveOrder(req.params.order_id);
+  res.redirect('/orders');
 });
 
 app.post("/orders/:order_id/completed", (req, res) => {
   DataHelpers.completeOrder(req.params.order_id);
+  res.redirect('/orders');
 });
 
 app.post("/orders/:order_id/closed", (req, res) => {
   DataHelpers.closeOrder(req.params.order_id);
+  res.redirect('/orders');
 });
 
 app.get("/orders/:restaurant_id", (req, res) => {

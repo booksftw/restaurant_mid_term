@@ -57,9 +57,10 @@
               <input type="submit" class="btn btn-danger checkout-btn" value="PLACE ORDER" data-restr-id="<%= restr.id %>" >
               <div class="form-group">
                 <label for="user-name">Name:</label>
-                <input type="text" class="form-control user-name" name="name">
+                <input type="text" class="form-control user-name" name="name" required>
+                <input type="hidden"  name="restaurant_id" value="<%= restr.id %>">
                 <label for="user-phone">Phone Number:</label>
-                <input type="tel" class="form-control user-phone" name="phone">
+                <input type="tel" class="form-control user-phone" name="phone" required>
                 <label for="user-notes">Notes:</label>
                 <textarea class="form-control user-notes" rows="3" name="notes"></textarea>
               </div>

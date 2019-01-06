@@ -18,16 +18,18 @@ $(document).ready(() => {
     $('.tot')[0].innerHTML = (Number($('.sub')[0].innerHTML) + Number($('.tax')[0].innerHTML)).toFixed(2);
   }
 
+  var itemNo = 0;
 
   function createOrder(menuItem) {
     const $order = $("<div>").addClass('cart-item').html(`
-
-      <div class="menu-text ${menuItem.id}">
+      <div class="menu-text" data-item-id="${menuItem.id}">
         <p><em>${menuItem.name}</em><span class="remove"><i class="fas fa-minus-circle"></i></span></p>
         <p>$ ${Number(menuItem.price)}</p>
+        <input type="hidden" name="items[${itemNo}][item_id]" value="${menuItem.id}"/>
+        <input type="hidden" name="items[${itemNo}][qty]" value="${menuItem.qty}"/>
       </div>
       `);
-
+      itemNo++;
     return $order;
   }
 
@@ -54,10 +56,12 @@ $(document).ready(() => {
     }
   });
 
-  $('#checkout').submit(function (e) {
-    // e.preventDefault();
-    console.log(this);
-  });
+  // $('#checkout').submit(function (e) {
+  //   // e.preventDefault();
+  //   console.log(this);
+  //   let order = {};
+  //
+  // });
 
   $('.checkout').on('click', function(e){
     var restrId = $(this).attr('data-restr-id')

@@ -95,6 +95,20 @@ module.exports = {
 
     },
 
+    newOrder: function(order) {
+      console.log(order);
+      let items = order.items;
+      delete order.items;
+      return knex('orders').returning('id').insert(order).then((order_id) => {
+        console.log(order_id);
+        return knex('order_items').insert(items.map((item)=>{
+          return {...item, order_id: order_id[0] }
+        })).then(()=>{
+          return order_id;
+        })
+      })
+    },
+
     receiveOrder: function (orderId) {
       return knex('orders').where('id', '=', orderId).update( {'received_at':  knex.fn.now() } ).then( () => {} ).return();
     },
