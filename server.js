@@ -61,12 +61,6 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
 
-// TODO ~ UPDATE / ROUTE TO REDIRECT TO LOGIN
-// TODO ~ Add logout btn
-// TODO REDIRECT LOGGED IN USERS BY THEIR USER STORY OR 404
-
-
-
 /**
  * ~ Custom Route Guards
 * Todo: Another improvement is to make the restr owner only able to visit his own restraunts
@@ -172,8 +166,9 @@ app.get("/demo", (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('I updated this route to /shop to support authentication and user stories based on their acess rights.  -NZ')
-  res.end()
+  // res.send('I updated this route to /shop to support authentication and user stories based on their acess rights.  -NZ')
+  res.redirect('/login')
+  // res.end()
 })
 
 // Home page - Restaurant Listing
@@ -190,7 +185,7 @@ app.get("/shop", (req, res) => {
 
 // Restaurant Menu
 app.get("/shop/:restaurant_id", (req, res) => {
-  const rest_id = req.params.restaurant_id;
+  const rest_id = Number(req.params.restaurant_id);
   let result = DataHelpers.getRestaurant();
 
   result.then((value) => {
@@ -208,13 +203,10 @@ app.get("/shop/:restaurant_id", (req, res) => {
       // console.log(val[0], 'restraunt')
       // console.log(val[1], 'menus')
       // console.log(val[2], 'dishes')
-
-      console.log(rest_id, 'rest_id', typeof(rest_id) )
-
       const currRestr = allRestaurants.filter( (restr) => {
-        return restr.id == rest_id
+          console.log(restr.id, rest_id, 'INSIDE CURR REST FILTER')
+        return restr.id === rest_id;
       })
-      console.log(currRestr, 'currRestr')
 
       const templateData = {
         restr: currRestr[0],
@@ -222,13 +214,14 @@ app.get("/shop/:restaurant_id", (req, res) => {
         dishes: val[2],
       }
       res.render('index', templateData);
-
     }
   )
-
-
   });
 });
+
+app.get('/shop/:restaurant_id/checkout_success', (req, res) => {
+  res.render("checkout-success")
+})
 
 // Orders page
 app.get("/orders", (req, res) => {
@@ -265,21 +258,33 @@ app.get("/orders/:restaurant_id", (req, res) => {
   });
 });
 
+
+
+//~ Restaurant Owner Text
 app.use('/orders/:restaurant_id/order-received', (req, res) => {
   // * Restaurant received order via SMS
   const twilioNumber = '+17784004460';
   const restaurantNumber     = '+12504155392';
-
+  const rest_id   = req.params.restaurant_id
+  console.log(rest_id, 'rest_id')
   client.messages.create({
-    body: 'You have a new order restaurant owner',
+    body: `You have a new order http://localhost:8080/orders/${rest_id}`,
     to: restaurantNumber,  // Text this number
     from: twilioNumber// From a valid Twilio number
   })
-  .then((message) => console.log(message.sid));
+  .then(
+    (message) => {
+      console.log(message.sid) 
+      res.redirect('checkout_success')
+    }
+  );
 })
 
+// ~ Customer text
 app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
   // * Restaurant sets an estimate for how long the order will take and this sms will fire a txt to the client with the estimate time
+  const defaultDeliveryTime = 35
+
 
   // Maybe an algorithm that decides how long it will take
   // Sends txt to client with estimate time
