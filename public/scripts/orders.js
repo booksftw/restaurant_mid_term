@@ -58,14 +58,11 @@ $jq(document).ready(() => {
     $orderContainer.append($orderHeader, $orderContent);
 
     return $orderContainer;
-
   }
 
   $jq.getJSON('/orders', (data) => {
     renderOrders(data);
   });
-
-  const $emptyColumns = $jq('.new-orders, .in-progress-orders, .completed-orders').empty();
 
   $jq('.new-orders').on('click', '.confirm-order', function () {
     $jq.post(`/orders/${$jq(this).parent().attr('id')}/received`)
@@ -88,6 +85,16 @@ $jq(document).ready(() => {
   });
 
   $jq('.completed-orders').on('click', '.confirm-order', function () {
+    $jq.post(`/orders/${$jq(this).parent().attr('id')}/closed`)
+    .then($jq('.new-orders').empty())
+    .then($jq('.in-progress-orders').empty())
+    .then($jq('.completed-orders').empty())
+    .then($jq.getJSON('/orders', (data) => {
+      renderOrders(data);
+    }));
+  });
+
+  $jq('.orders').on('click', '.cancel-order', function () {
     $jq.post(`/orders/${$jq(this).parent().attr('id')}/closed`)
     .then($jq('.new-orders').empty())
     .then($jq('.in-progress-orders').empty())
