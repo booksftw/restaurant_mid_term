@@ -101,7 +101,7 @@ app.use('/shop/:restaurant_id/checkout_success', (req, res,next ) => {
   })
   .then(
     (message) => {
-      console.log(message.sid) 
+      console.log(message.sid)
     }
   );
 
@@ -113,12 +113,12 @@ app.use('/shop/:restaurant_id/checkout_success', (req, res,next ) => {
   })
   .then(
     (message) => {
-      console.log(message.sid) 
+      console.log(message.sid)
     }
   );
 
   next()
-})  
+})
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
 
@@ -294,8 +294,6 @@ app.get("/orders/:restaurant_id", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 
 
 //~ Restaurant Owner Text
@@ -328,7 +326,6 @@ app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
   // Sends txt to client with estimate time
 })
 
->>>>>>> bug/order-item-qty
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
