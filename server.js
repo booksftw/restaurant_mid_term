@@ -258,8 +258,10 @@ app.get("/orders", (req, res) => {
 });
 
 app.post('/orders', (req, res) => {
-  DataHelpers.newOrder(req.body);
-  
+  let order = req.body
+  DataHelpers.newOrder(req.body).then((order_id)=>{
+    res.redirect(`/shop/${order.restaurant_id}/checkout_success`);
+  });
 });
 
 app.post("/orders/:order_id/received", (req, res) => {
