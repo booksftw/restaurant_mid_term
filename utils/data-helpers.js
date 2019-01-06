@@ -21,39 +21,46 @@ const NestHydrationJS = require('nesthydrationjs')();
 // Defines helper functions for saving and getting tweets, using the database `db`
 module.exports = {
     // ~ Curently only returning the first restaurant
-    getRestaurant: function(onlyFirstRestr) {
-
-        return knex.select('*').from('restaurants')
-            .then(function (rest){
-            if(onlyFirstRestr){
-                return Promise.resolve(rest[0])
+    getRestaurant: function(onlyFirstRest, restaurant_id) {
+        let query = knex.select('*').from('restaurants')
+        if(restaurant_id){
+          query = query.where('restaurants.id', '=', restaurant_id)
+        }
+        return query.then(function (rest){
+            if(onlyFirstRest){
+              console.log(rest[0]);
+                return rest[0]
             } else {
-                return Promise.resolve(rest)
+                return rest
             }
-
         });
     },
 
     // ~ Currently only returning the first menu
-    getMenus: function(onlyFirstMenu) {
-
-        return knex.select('*').from('menus')
-        .then(function (rest){
+    getMenus: function(onlyFirstMenu, restaurant_id) {
+        let query =  knex.select('*').from('menus')
+        if(restaurant_id){
+          query = query.where('restaurant_id', '=', restaurant_id)
+        }
+        return query.then(function (rest){
             if(onlyFirstMenu){
-                return Promise.resolve(rest[0])
+                return rest[0]
             } else {
-                return Promise.resolve(rest)
+                return rest
             }
         });
     },
 
-    getItems: function() {
-        return knex.select('*').from('items')
-        .then(function (rest){
+    getItems: function(onlyFirstMenu, restaurant_id) {
+        let query =  knex.select('*').from('items')
+        if(restaurant_id){
+          query = query.where('restaurant_id', '=', restaurant_id)
+        }
+        return query.then(function (rest){
             if(rest.length > 0){
-                return Promise.resolve(rest)
+                return rest
             } else {
-                return Promise.resolve(0)
+                return 0
             }
         });
     },

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/navbar.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
 
     <title><%= restr.name %></title>
   </head>
@@ -30,8 +31,12 @@
           <div class="container main">
             <h1>Main  <i class="fas fa-utensils"></i></h1>
             <hr/>
+            <script>
+              window.menuItems = <%- JSON.stringify(dishes) %>
+              window.menuItems = _.groupBy(menuItems,'id');
+            </script>
             <% for(let dish of dishes) { %>
-            <div class="menu-item">
+            <div class="menu-item" data-id="<%= dish.id %>">
               <div class="menu-text">
                 <h3 class="menu-name"><%= dish.name %></h3>
                 <p><%= dish.description %></p>
@@ -48,15 +53,15 @@
           <div class="container">
             <h1>Cart  <i class="fas fa-cart-plus"></i></h1>
             <hr/>
-            <form id="checkout">
+            <form id="checkout" method="POST" action="/orders">
               <input type="submit" class="btn btn-danger checkout-btn" value="PLACE ORDER" data-restr-id="<%= restr.id %>" >
               <div class="form-group">
                 <label for="user-name">Name:</label>
-                <input type="text" class="form-control user-name">
+                <input type="text" class="form-control user-name" name="name">
                 <label for="user-phone">Phone Number:</label>
-                <input type="text" class="form-control user-phone">
+                <input type="tel" class="form-control user-phone" name="phone">
                 <label for="user-notes">Notes:</label>
-                <textarea class="form-control user-notes" rows="3"></textarea>
+                <textarea class="form-control user-notes" rows="3" name="notes"></textarea>
               </div>
               <hr/>
 

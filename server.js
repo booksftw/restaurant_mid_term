@@ -223,37 +223,26 @@ app.get("/shop", (req, res) => {
 // Restaurant Menu
 app.get("/shop/:restaurant_id", (req, res) => {
   const rest_id = Number(req.params.restaurant_id);
-  let result = DataHelpers.getRestaurant();
-
-  result.then((value) => {
-    // console.log(value, 'val')
   let demoData = Promise.all(
     [
       // ! Restaurants and Menus returning only the first key
-      DataHelpers.getRestaurant(),
-      DataHelpers.getMenus(),
-      DataHelpers.getItems(),
+      DataHelpers.getRestaurant(true, rest_id),
+      DataHelpers.getMenus(false),
+      DataHelpers.getItems(false),
     ]
-  ).then(
-    (val) => {
-      const allRestaurants = val[0]
-      // console.log(val[0], 'restraunt')
-      // console.log(val[1], 'menus')
-      // console.log(val[2], 'dishes')
-      const currRestr = allRestaurants.filter( (restr) => {
-          console.log(restr.id, rest_id, 'INSIDE CURR REST FILTER')
-        return restr.id === rest_id;
-      })
-
+  )
+  return demoData.then((val) => {
+      // console.log(JSON.stringify(val, null, 2))
+      let restr,menus,dishes;
+      [restr,menus,dishes] = val;
       const templateData = {
-        restr: currRestr[0],
-        menus: val[1],
-        dishes: val[2],
+        restr,
+        menus,
+        dishes
       }
       res.render('index', templateData);
     }
   )
-  });
 });
 
 app.get('/shop/:restaurant_id/checkout_success', (req, res) => {
