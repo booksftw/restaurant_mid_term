@@ -48,33 +48,35 @@
           <div class="container">
             <h1>Cart  <i class="fas fa-cart-plus"></i></h1>
             <hr/>
-            <button type="button" class="btn btn-danger checkout" data-restr-id=<%= restr.id %> > CHECK OUT </button>
-            <div class="user-name">
-              <p>Name: </p>
-              <input type='name'>
-            </div>
-            <div class="user-phone">
-              <p>Phone number: </p>
-              <input type='phone_number' placeholder="###-###-####">
-            </div>
-            <hr/>
-
-            <div class="subtotal">
-              <div class="subtotal-text">
-                <p>Subtotal:</p>
-                <p>Tax:</p>
-                <p class="total">Total:</p>
+            <form id="checkout">
+              <input type="submit" class="btn btn-danger checkout-btn" value="PLACE ORDER" data-restr-id="<%= restr.id %>" >
+              <div class="form-group">
+                <label for="user-name">Name:</label>
+                <input type="text" class="form-control user-name">
+                <label for="user-phone">Phone Number:</label>
+                <input type="text" class="form-control user-phone">
+                <label for="user-notes">Notes:</label>
+                <textarea class="form-control user-notes" rows="3"></textarea>
               </div>
-              <div class="subtotal-price">
-                <p>$<span class="sub">0.00</span></p>
-                <p>$<span class="tax">0.00</span></p>
-                <p>$<span class="tot">0.00</span></p>
-              </div>
-            </div>
-            <hr/>
-            <div class="item-added">
+              <hr/>
 
-            </div>
+              <div class="subtotal">
+                <div class="subtotal-text">
+                  <p>Subtotal:</p>
+                  <p>Tax:</p>
+                  <p class="total">Total:</p>
+                </div>
+                <div class="subtotal-price">
+                  <p>$<span class="sub">0.00</span></p>
+                  <p>$<span class="tax">0.00</span></p>
+                  <p>$<span class="tot">0.00</span></p>
+                </div>
+              </div>
+              <hr/>
+              <div class="item-added">
+
+              </div>
+            </form>
           </div>
         </div>
       </div>

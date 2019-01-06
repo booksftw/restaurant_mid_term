@@ -6,7 +6,6 @@ $(document).ready(() => {
   //   console.log('hihi');
   // });
 
-
   $('.cart').on('click', '.remove', function(item){
     $(this).parent().parent().parent().remove();
   });
@@ -51,7 +50,11 @@ $(document).ready(() => {
     }
   })
 
-  
+  $('#checkout').submit(function (e) {
+    e.preventDefault();
+    console.log(this);
+  })
+
   $('.checkout').on('click', function(e){
     var restrId = $(this).attr('data-restr-id')
     window.location.href = `/shop/${restrId}/checkout_success`;
