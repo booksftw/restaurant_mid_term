@@ -16,9 +16,6 @@ const knexLogger = require('knex-logger');
 
 const bookshelf = require('bookshelf')(knex);
 
-
-
-
 // * Twilio SMS
 const accountSid = 'ACb04a19b41aca7affdb6398243477e0d6'; // Your Account SID from www.twilio.com/console
 const authToken = '3c63f219dd4cc8f6798b8649878cf8b9';   // Your Auth Token from www.twilio.com/console
@@ -68,25 +65,25 @@ app.use(express.static("public"));
  * ~ Custom Route Guards
 * Todo: Another improvement is to make the restr owner only able to visit his own restraunts
  */
-// app.get('*' , (req,res,next) => {
-//   const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
-//   const url = req.url
+app.get('*' , (req,res,next) => {
+  const role = req.session.user ? req.session.user.role : null //req.session == null ? null  : req.session.user.role
+  const url = req.url
 
-//   // * Guard URL by cookie role
-//   if (role == 'customer') {
-//     // customer routes
-//     url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
-//   } else if (role == 'owner') {
-//     // owner routes
-//     url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
-//   } else if( !role ) {
-//     // No cookie and not on login already
-//     console.log('NULL role')
-//     url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
-//     // res.redirect('/login')
-//   }
-//   next()
-// })
+  // * Guard URL by cookie role
+  if (role == 'customer') {
+    // customer routes
+    url.includes('shop') || url =='/' || url.includes('/login')  ? console.log('customer null ALLOWED') : res.redirect('/login?404=true')//res.redirect('/404')//console.log('/shop customer 404 redirect FORBIDDEN')//res.redirect('/login')
+  } else if (role == 'owner') {
+    // owner routes
+    url.includes('orders') || url == '/' || url.includes('login') ? console.log('owner null ALLOWED') : res.redirect('/login?404=true')//console.log('/orders owner 404 redirect FORBIDDEN') //res.redirect('/login')
+  } else if( !role ) {
+    // No cookie and not on login already
+    console.log('NULL role')
+    url == '/login' ? console.log('Not logged in user ALLOWED') : res.redirect('/login')
+    // res.redirect('/login')
+  }
+  next()
+})
 
 /**
  * ~ Custom Authentication
