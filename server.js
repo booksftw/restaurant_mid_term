@@ -185,7 +185,7 @@ app.get("/shop", (req, res) => {
 
 // Restaurant Menu
 app.get("/shop/:restaurant_id", (req, res) => {
-  const rest_id = req.params.restaurant_id;
+  const rest_id = Number(req.params.restaurant_id);
   let result = DataHelpers.getRestaurant();
 
   result.then((value) => {
@@ -204,7 +204,8 @@ app.get("/shop/:restaurant_id", (req, res) => {
       // console.log(val[1], 'menus')
       // console.log(val[2], 'dishes')
       const currRestr = allRestaurants.filter( (restr) => {
-        return restr.id == rest_id
+          console.log(restr.id, rest_id, 'INSIDE CURR REST FILTER')
+        return restr.id === rest_id;
       })
 
       const templateData = {
@@ -232,7 +233,6 @@ app.get("/orders", (req, res) => {
 });
 
 app.post("/orders/:order_id/received", (req, res) => {
-  console.log('Received!', req.params.order_id);
   DataHelpers.receiveOrder(req.params.order_id);
 });
 
@@ -248,7 +248,6 @@ app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-
     const orderData = value;
     const templateData = {
       order: orderData,
@@ -294,5 +293,3 @@ app.use('/orders/:restaurant_id/order-estimate', (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-
-

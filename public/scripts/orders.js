@@ -65,19 +65,36 @@ $jq(document).ready(() => {
     renderOrders(data);
   });
 
-  $jq('.new-orders').on('click', '.confirm-order', function () {
-    console.log($jq(this).parent().attr('id'));
-    const $confirmOrder = $jq.post(`/orders/${$jq(this).parent().attr('id')}/received`);
+  const $emptyColumns = $jq('.new-orders, .in-progress-orders, .completed-orders').empty();
 
-    $confirmOrder.done((data) => {
-      $jq.getJSON(`/orders/${$jq(this).parent().attr('id')}/received}`, (data) => {
-        $jq('.new-orders').empty();
-        $jq('.in-progress-orders').empty();
-        $jq('.completed-orders').empty();
-        console.log('Refresh!');
+  $jq('.new-orders').on('click', '.confirm-order', function () {
+    $jq.post(`/orders/${$jq(this).parent().attr('id')}/received`)
+    .then($jq('.new-orders').empty())
+    .then($jq('.in-progress-orders').empty())
+    .then($jq('.completed-orders').empty())
+    .then($jq.getJSON('/orders', (data) => {
+      renderOrders(data);
+    }));
+  });
+
+  $jq('.in-progress-orders').on('click', '.confirm-order', function () {
+    $jq.post(`/orders/${$jq(this).parent().attr('id')}/completed`)
+      .then($jq('.new-orders').empty())
+      .then($jq('.in-progress-orders').empty())
+      .then($jq('.completed-orders').empty())
+      .then($jq.getJSON('/orders', (data) => {
         renderOrders(data);
-      });
-    })
+      }));
+  });
+
+  $jq('.completed-orders').on('click', '.confirm-order', function () {
+    $jq.post(`/orders/${$jq(this).parent().attr('id')}/closed`)
+    .then($jq('.new-orders').empty())
+    .then($jq('.in-progress-orders').empty())
+    .then($jq('.completed-orders').empty())
+    .then($jq.getJSON('/orders', (data) => {
+      renderOrders(data);
+    }));
   });
 
   // Order toggle
