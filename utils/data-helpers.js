@@ -58,14 +58,14 @@ module.exports = {
         });
     },
 
-    getOrders: function(restId) {
+    getOrders: function() {
       return knex.select(
         'orders.id as _id',
         'orders.name as _name',
         'orders.phone as _phone',
         'items.name as _item__name',
-        'order_items.qty as _item__qty',
-        'items.id as _item_id__NUMBER',
+        'order_items.qty as _item__qty___NUMBER',
+        'items.id as _item_id___ID___NUMBER',
         'orders.notes as _notes',
         'orders.created_at as _createdAt',
         'orders.received_at as _receivedAt',
