@@ -61,6 +61,11 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex)); Not sure if this does anything i'm commenting it out for now nz
 
+// TODO ~ UPDATE / ROUTE TO REDIRECT TO LOGIN
+// TODO ~ Add logout btn
+// TODO REDIRECT LOGGED IN USERS BY THEIR USER STORY OR 404
+
+
 
 /**
  * ~ Custom Route Guards
@@ -229,16 +234,38 @@ app.get("/shop/:restaurant_id", (req, res) => {
 });
 
 // Orders page
+app.get("/orders", (req, res) => {
+  // Get orders data for this restaurant id and pass to template
+  let result = DataHelpers.getOrders();
+  result.then((value) => {
+    res.json(value);
+  });
+});
+
+app.post("/orders/:order_id/received", (req, res) => {
+  console.log('Received!', req.params.order_id);
+  DataHelpers.receiveOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/completed", (req, res) => {
+  DataHelpers.completeOrder(req.params.order_id);
+});
+
+app.post("/orders/:order_id/closed", (req, res) => {
+  DataHelpers.closeOrder(req.params.order_id);
+});
+
 app.get("/orders/:restaurant_id", (req, res) => {
   // Get orders data for this restaurant id and pass to template
   let result = DataHelpers.getOrders();
   result.then((value) => {
-    // console.log(value)
+
     const orderData = value;
     const templateData = {
-      order: orderData
+      order: orderData,
+      restId: req.params.restaurant_id
     }
-
+    console.log(templateData.order[1].item)
     res.render("orders", templateData);
   });
 });
@@ -267,30 +294,4 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-
-/**
- * ~ Passport Authentication
- */
-
-// ~ Where I left off: http://www.passportjs.org/packages/passport-local/ . The passport strategy requires a verify callback.
-
-var passport = require('passport')
-, LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-app.post('/demo',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
 
