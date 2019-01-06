@@ -190,7 +190,7 @@ app.get("/shop", (req, res) => {
 
 // Restaurant Menu
 app.get("/shop/:restaurant_id", (req, res) => {
-  const rest_id = req.params.restaurant_id;
+  const rest_id = Number(req.params.restaurant_id);
   let result = DataHelpers.getRestaurant();
 
   result.then((value) => {
@@ -212,7 +212,8 @@ app.get("/shop/:restaurant_id", (req, res) => {
       console.log(rest_id, 'rest_id', typeof(rest_id) )
 
       const currRestr = allRestaurants.filter( (restr) => {
-        return restr.id == rest_id
+          console.log(restr.id, rest_id, 'INSIDE CURR REST FILTER')
+        return restr.id === rest_id;
       })
       console.log(currRestr, 'currRestr')
 

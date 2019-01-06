@@ -6,6 +6,12 @@ $(document).ready(() => {
   //   console.log('hihi');
   // });
 
+
+  $('.cart').on('click', '.remove', function(item){
+    $(this).parent().parent().parent().remove();
+  });
+
+
   function addToCart(menuName, menuPrice) {
     $('.item-added').append(createOrder(menuName, menuPrice));
     $('.sub')[0].innerHTML = (Number($('.sub')[0].innerHTML) + menuPrice).toFixed(2);
@@ -18,7 +24,7 @@ $(document).ready(() => {
     const $order = $("<div>").addClass('cart-item').html(`
 
       <div class="menu-text">
-        <p><em>${menuName}</em></p>
+        <p><em>${menuName}</em><span class="remove"><i class="fas fa-minus-circle"></i></span></p>
         <p>$ ${Number(menuPrice)}</p>
       </div>
       `);
@@ -35,7 +41,7 @@ $(document).ready(() => {
   //   addToCart(menuName, menuPrice);
   // });
 
-  $('button').on('click', function(e){
+  $('.menu-button').on('click', function(e){
     const menuName = $(this).parent().parent().find('.menu-name')[0].innerHTML;
     const menuQty = $(this).parent().find('.qty')[0].value;
     const menuPrice = $(this).parent().find('.menu-price')[0].innerHTML * menuQty;

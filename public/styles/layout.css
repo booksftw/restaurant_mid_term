@@ -78,6 +78,14 @@ button {
   overflow-y: scroll;
 }
 
+.cart .remove {
+  float: right;
+}
+
+.cart .remove:hover {
+  cursor: pointer;
+}
+
 .cart p {
   margin: 0;
 }
