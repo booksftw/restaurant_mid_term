@@ -53,18 +53,6 @@
           <div class="container">
             <h1>Cart  <i class="fas fa-cart-plus"></i></h1>
             <hr/>
-<<<<<<< HEAD
-            <form id="checkout" method="POST" action="/orders">
-              <input type="submit" class="btn btn-danger checkout-btn" value="PLACE ORDER" data-restr-id="<%= restr.id %>" >
-              <div class="form-group">
-                <label for="user-name">Name:</label>
-                <input type="text" class="form-control user-name" name="name" required>
-                <input type="hidden"  name="restaurant_id" value="<%= restr.id %>">
-                <label for="user-phone">Phone Number:</label>
-                <input type="tel" class="form-control user-phone" name="phone" required>
-                <label for="user-notes">Notes:</label>
-                <textarea class="form-control user-notes" rows="3" name="notes"></textarea>
-=======
             <button type="button" class="btn btn-danger checkout">CHECK OUT</button>
             <div class="user-name">
               <p>Name: </p>
@@ -81,7 +69,6 @@
                 <p>Subtotal:</p>
                 <p>Tax:</p>
                 <p class="total">Total:</p>
->>>>>>> feature/main_page_checkout
               </div>
               <hr/>
 
