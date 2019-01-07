@@ -1,9 +1,8 @@
 body {
     height: 100%;
     width: 100%;
-    background-color: #010101 !important;
   }
-  
+
   #countdown {
     position: relative;
     margin: auto;
@@ -14,13 +13,13 @@ body {
     font-family: oswald;
     font-size: 22px;
   }
-  
+
   #countdown-number {
-    color: whitesmoke;
+    color: #000;
     display: inline-block;
     line-height: 160px;
   }
-  
+
   svg {
     position: absolute;
     top: 0;
@@ -29,17 +28,17 @@ body {
     height: 160px;
     transform: rotateY(-180deg) rotateZ(-90deg);
   }
-  
+
   svg circle {
     stroke-dasharray: 452px;
     stroke-dashoffset: 0px;
     stroke-linecap: round;
     stroke-width: 3px;
-    stroke: white;
+    stroke: #000;
     fill: none;
     animation: countdown 1800s linear infinite forwards;
   }
-  
+
   @keyframes countdown {
     from {
       stroke-dashoffset: 0px;
@@ -52,7 +51,7 @@ body {
 
 p.timer-text {
     display: inline;
-    color: whitesmoke;
+    color: #000;
     font-size: small;
 }
 
@@ -60,12 +59,12 @@ h1.order-success-header {
     text-align: center;
     position: relative;
     top: 3em;
-    color:white;
+    color: #000;
 }
 
 p.order-success-text {
     position: relative;
     text-align: center;
-    color: white;
+    color: #000;
     top: 12em;
 }

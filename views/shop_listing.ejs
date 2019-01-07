@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/navbar.css" type="text/css" />
     <link rel="stylesheet" href="/styles/orders.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <!-- Scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -27,8 +28,8 @@
 
 
 
-<body class ='bg-light'>
-    <div class="container bg-white">
+<body>
+    <div class="container main col-6 bg-white">
         <div class="alert alert-primary mt-4" role="alert">
             Check out our new restaurants!
         </div>
@@ -37,8 +38,9 @@
                 <ul>
                 <% restrs.forEach( (restr) => { %>
                     <li>
-                        <a href='/shop/<%= restr.id %>' ><%= restr.name %></a>
-                        <img style='width: 25%;height:10%' src="<%= restr.logo_url %>" alt=""> <!-- HOT FIX INLINE STYLE-->
+                        <a href='/shop/<%= restr.id %>' ><img style='width: 25%' src="<%= restr.logo_url %>" class="rest-img bg-dark" alt=""><%= restr.name %></a>
+                        <hr />
+                         <!-- HOT FIX INLINE STYLE-->
                     </li>
                 <% } ) %>
                 </ul>

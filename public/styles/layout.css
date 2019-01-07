@@ -70,10 +70,11 @@ button {
 
 .cart {
   padding-top: 1em;
+  padding-bottom: 1em;
   box-shadow: -10px 5px 5px #ccc;
   position: fixed;
   right: 10%;
-  height: 85%;
+  height: 86.5%;
   background: white;
   overflow-y: scroll;
 }
@@ -111,4 +112,16 @@ button {
 .checkout-btn {
   margin-bottom: 1em;
   width: 100%;
+}
+
+li {
+  list-style-type: none;
+}
+
+.rest-img {
+  margin: 1rem;
+}
+
+.timer {
+  height: 87%;
 }
