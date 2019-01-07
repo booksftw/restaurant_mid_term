@@ -59,9 +59,8 @@ button {
 }
 
 .btn-warning {
-  width: 42px;
-  height: 30px;
-  padding: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
 }
 
 .main {
