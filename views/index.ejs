@@ -35,7 +35,7 @@
               <div class="menu-text">
                 <h3 class="menu-name"><%= dish.name %></h3>
                 <p><%= dish.description %></p>
-                <p>$<span class="menu-price"><%= dish.price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning menu-button" type="button">Add</button></p>
+                <p class="d-flex justify-content-between"><span>$<span class="menu-price"><%= dish.price %></span></span> x <span class='d-flex'><input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning menu-button" type="button">Add</button></span></p>
               </div>
               <div class="menu-img">
                 <img src="<%= dish['image_url'] %>" class="rounded" alt="breakfast">
