@@ -7,6 +7,11 @@ $(document).ready(() => {
   // });
 
   $('.cart').on('click', '.remove', function(item){
+    const removedItem = Number($(this).parent().parent().find('.cart-item-price')[0].innerHTML);
+
+    $('.sub')[0].innerHTML = (Number($('.sub')[0].innerHTML) - removedItem).toFixed(2);
+    $('.tax')[0].innerHTML = (Number($('.sub')[0].innerHTML) * 0.05).toFixed(2);
+    $('.tot')[0].innerHTML = (Number($('.sub')[0].innerHTML) + Number($('.tax')[0].innerHTML)).toFixed(2);
     $(this).parent().parent().parent().remove();
   });
 
@@ -22,11 +27,13 @@ $(document).ready(() => {
 
   function createOrder(menuItem) {
     const $order = $("<div>").addClass('cart-item').html(`
+
       <div class="menu-text" data-item-id="${menuItem.id}">
         <p><em>${menuItem.name}</em><span class="remove"><i class="fas fa-minus-circle"></i></span></p>
         <p>$ ${Number(menuItem.price)}</p>
         <input type="hidden" name="items[${itemNo}][item_id]" value="${menuItem.id}"/>
         <input type="hidden" name="items[${itemNo}][qty]" value="${menuItem.qty}"/>
+
       </div>
       `);
       itemNo++;
