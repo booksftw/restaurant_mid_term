@@ -40,7 +40,8 @@
               <div class="menu-text">
                 <h3 class="menu-name"><%= dish.name %></h3>
                 <p><%= dish.description %></p>
-                <p>$<span class="menu-price"><%= dish.price %></span> x <input class="qty" type="number" value="1" min="0" max="15"><button class="btn btn-warning menu-button" type="button">Add</button></p>
+                <p>$<span class="menu-price"><%= dish.price %></span>&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;<input class="qty" type="number" value="1" min="0" max="15"><br />
+                <button class="btn btn-warning menu-button" type="button">Add to Cart</button></p>
               </div>
               <div class="menu-img">
                 <img src="<%= dish['image_url'] %>" class="rounded" alt="breakfast">
